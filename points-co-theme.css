@@ -1,0 +1,88 @@
+/* Hallmark · existing dashboard grid · blue palette · square controls
+ * pre-emit critique: P4 H4 E4 S5 R5 V4 */
+:root {
+  --color-tile-deep: #173c65;
+  --color-tile-mid: #346d9e;
+  --color-tile-bright: #285ea8;
+  --color-tile-pale: #e9f1fa;
+  --color-tile-white: #fff;
+  --color-tile-ink: #142d4c;
+  --color-tile-muted: #506a87;
+  --color-tile-line: #c8d8ea;
+  --color-tile-glass: #173c65cc;
+  --color-photo-shade: #00000094;
+  --font-controls: 'Inter', sans-serif;
+}
+/* Shared blue surfaces keep Explore and Chat in the dashboard's visual family. */
+body:has(.app-shell), body:has(.offer-grid) {
+  --color-paper: var(--color-tile-white);
+  --color-frame: var(--color-tile-pale);
+  --color-ink: var(--color-tile-ink);
+  --color-muted: var(--color-tile-muted);
+  --color-border: var(--color-tile-line);
+  --color-line: var(--color-tile-line);
+  --color-soft: var(--color-tile-pale);
+  --color-surface: var(--color-tile-pale);
+  --color-accent: var(--color-tile-bright);
+  --color-accent-light: var(--color-tile-mid);
+  --color-blue: var(--color-tile-deep);
+  --color-pink: var(--color-tile-mid);
+  --color-outline: var(--color-tile-muted);
+  --color-card: var(--color-tile-deep);
+  --color-card-muted: var(--color-tile-line);
+  --color-glass: var(--color-tile-glass);
+}
+body:has(.app-shell) :is(button,.plus-icon,.briefing,.composer,.loyalty-card,.wallet-body,.message.user,dialog),
+body:has(.offer-grid) :is(button,.round-link,.offer,.offer-badge,.solid-button,.empty-state,dialog) { border-radius: 0; }
+.app-shell { margin: 14px; }
+.app-shell .topbar { height: 58px; }
+.app-shell .wordmark { font-size: 18px; font-weight: 600; letter-spacing: -.6px; }
+.briefing { background: var(--color-tile-pale); border-color: var(--color-tile-line); }
+.briefing .eyebrow { color: var(--color-tile-deep); }
+.rewards-pill, .send-button, .round-link, .solid-button { background: var(--color-tile-bright); }
+.offer { background: var(--color-tile-deep); }
+.offer:nth-child(3n + 2) { background: var(--color-tile-mid); }
+.offer:nth-child(3n) { background: var(--color-tile-bright); }
+.offer::before { background: linear-gradient(180deg,var(--color-photo-shade),transparent 45%,var(--color-photo-shade)); }
+.points-summary { background: var(--color-tile-deep); color: var(--color-tile-white); }
+.points-summary .balance-note { color: var(--color-tile-line); }
+.category[aria-pressed=true], .saved-filter[aria-pressed=true] { background: var(--color-tile-bright); }
+/* Every dashboard surface, including photographic tiles and both flip faces. */
+body[data-palette=blue] .tile-explore { background: var(--color-tile-bright); }
+body[data-palette=blue] .tile-activities { background: var(--color-tile-deep); }
+body[data-palette=blue] .tile-upcoming { background: var(--color-tile-mid); }
+body[data-palette=blue] .tile-back { background: var(--color-tile-deep) !important; }
+body[data-palette=blue] .trend-chart polyline { stroke: var(--color-tile-white); }
+:is(.tile-arrow-btn,.flip-toggle,.destination-pause) { border-radius: 0; }
+/* A single customization tile opens the two-step swap picker. */
+.tile-customize {
+  border: 1px dashed var(--color-tile-muted); border-radius: 0;
+  padding: 38px 40px; display: flex; flex-direction: column;
+  align-items: flex-start; justify-content: space-between; gap: 32px;
+  text-align: left; font-family: var(--font-controls);
+  color: var(--color-tile-ink); background: var(--color-tile-pale);
+}
+.tile-customize .tile-name, .tile-customize .tile-sub { display: block; }
+.customize-symbol { font-size: 64px; font-weight: 300; line-height: 1; }
+.tile-customize:hover { border-style: solid; }
+.tile-customize:focus-visible { outline: 3px solid var(--color-tile-bright); outline-offset: -6px; }
+body[data-palette=blue] .tile-customize { background: var(--color-tile-deep); color: var(--color-tile-white); border-color: var(--color-tile-line); }
+.tile-back-choice { display: block; margin-top: 16px; padding: 8px 0; border: 0; background: none; color: var(--color-tile-deep); }
+.tile-picker {
+  width: min(520px,calc(100% - 32px)); padding: 28px;
+  color: var(--color-tile-ink); background: var(--color-tile-white);
+  border: 1px solid var(--color-tile-line); font: 14px var(--font-controls);
+}
+.tile-picker::backdrop { background: var(--color-tile-glass); }
+.tile-picker-heading { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.tile-picker h2 { font-size: 24px; font-weight: 500; }
+.tile-picker p { line-height: 1.5; margin: 16px 0; color: var(--color-tile-muted); }
+.tile-picker button { cursor: pointer; font: inherit; border-radius: 0; }
+.tile-picker-close { width: 36px; height: 36px; border: 0; background: var(--color-tile-pale); font-size: 24px !important; }
+.tile-options { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 8px; }
+.tile-options button { padding: 14px 12px; text-align: left; border: 1px solid var(--color-tile-line); background: var(--color-tile-pale); color: var(--color-tile-ink); }
+.tile-options button:hover { color: var(--color-tile-white); background: var(--color-tile-bright); }
+.tile-picker button:focus-visible { outline: 2px solid var(--color-tile-bright); outline-offset: 3px; }
+.tile-reset { margin-top: 20px; padding: 10px 0; color: var(--color-tile-deep); background: none; border: 0; text-decoration: underline; }
+.tile-announcement { position: absolute; width: 1px; height: 1px; clip-path: inset(50%); overflow: hidden; }
+@media(max-width:700px) { .app-shell { margin: 0; } }

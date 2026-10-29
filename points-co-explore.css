@@ -1,0 +1,87 @@
+/* Hallmark · macrostructure: Catalogue · theme: monochrome reference · genre: modern-minimal
+ * nav: compact product navigation · footer: minimal signature · imagery: existing project photos
+ * pre-emit critique: P4 H5 E4 S4 R5 V4 */
+:root{
+  --color-paper:#fff;--color-ink:#111;--color-muted:#666;--color-surface:#f5f5f5;
+  --color-line:#e6e6e6;--color-card:#232323;--color-card-muted:#bdbdbd;
+  --color-overlay:rgba(0,0,0,.65);--color-glass:rgba(0,0,0,.58);
+  --font-body:'Inter',Arial,sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box}
+html,body{margin:0;overflow-x:clip}
+body{background:var(--color-paper);color:var(--color-ink);font-family:var(--font-body);font-size:14px}
+button,a{-webkit-tap-highlight-color:transparent}
+button{font:inherit;color:inherit;cursor:pointer}
+a{color:inherit;text-decoration:none}
+button,a{touch-action:manipulation}
+button:focus-visible,a:focus-visible{outline:2px solid var(--color-ink);outline-offset:5px}
+button:disabled{opacity:.5;cursor:default}
+[hidden]{display:none!important}
+.topbar{min-height:72px;margin:0 24px;border-bottom:1px solid var(--color-line);display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding:16px 0}
+.wordmark{font-size:18px;letter-spacing:-.6px;font-weight:600;white-space:nowrap}
+.topbar nav{display:flex;gap:20px;align-items:center;font-size:12px;flex-wrap:wrap}
+.topbar nav a{white-space:nowrap}
+.topbar nav a:hover,footer a:hover{text-decoration:underline;text-underline-offset:4px}
+main{padding:32px 24px 0;max-width:1800px;margin:auto}
+.intro{display:grid;grid-template-columns:minmax(0,1fr);gap:28px;margin-bottom:36px}
+.eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:.14em;color:var(--color-muted);margin:0 0 16px}
+.headline-row{display:flex;gap:20px;align-items:flex-end}
+h1{font-size:clamp(28px,3.2vw,48px);font-weight:500;line-height:1.14;letter-spacing:-1.5px;margin:0;min-width:0;overflow-wrap:anywhere}
+.desktop-break{display:none}
+.round-link{display:grid;place-items:center;flex-shrink:0;width:44px;height:44px;border-radius:50%;background:var(--color-ink);color:var(--color-paper);font-size:24px}
+.round-link:hover{background:var(--color-card)}
+.points-summary{background:var(--color-surface);padding:20px 24px;display:flex;flex-direction:column}
+.summary-top{display:flex;justify-content:space-between;gap:20px;font-size:16px}
+.summary-top button{border:0;background:none;padding:0;font-size:11px;white-space:nowrap;text-decoration:underline;text-underline-offset:4px}
+.points-summary strong{text-align:right;font-size:clamp(42px,4.3vw,68px);font-weight:500;letter-spacing:-3px;line-height:1.2;margin-top:24px}
+.balance-note{text-align:right;font-size:11px;color:var(--color-muted);margin-top:8px}
+.browse-bar{display:flex;align-items:flex-start;gap:16px;flex-wrap:wrap;justify-content:space-between}
+.categories{display:flex;flex-wrap:wrap;gap:7px}
+.category,.saved-filter{border:0;padding:12px 16px;background:var(--color-surface);border-radius:4px;font-size:13px;white-space:nowrap;min-height:44px}
+.category:hover,.saved-filter:hover{box-shadow:inset 0 0 0 1px var(--color-ink)}
+.category[aria-pressed=true],.saved-filter[aria-pressed=true]{background:var(--color-ink);color:var(--color-paper)}
+.saved-filter{border:1px solid var(--color-line);background:var(--color-paper)}
+.saved-filter span{margin-left:8px;font-variant-numeric:tabular-nums}
+.feed-meta{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:11px;color:var(--color-muted);margin:18px 0 12px}
+.feed-meta p{margin:0}
+.offer-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:18px}
+.offer{position:relative;min-width:0;min-height:330px;background:var(--color-card);color:var(--color-paper);overflow:hidden;border-radius:10px;isolation:isolate;display:flex;flex-direction:column;justify-content:flex-end;padding:18px}
+.offer img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2}
+.offer::before{content:'';position:absolute;inset:0;background:linear-gradient(180deg,var(--color-glass),transparent 45%,var(--color-glass));z-index:-1;pointer-events:none}
+.offer:has(.offer-mark)::before{display:none}
+.offer-tools{position:absolute;top:18px;left:18px;display:flex;gap:8px;z-index:2}
+.offer-tools button{width:36px;height:36px;border-radius:50%;border:1px solid var(--color-card-muted);background:var(--color-glass);color:var(--color-paper);font-size:21px;display:grid;place-items:center;line-height:1}
+.offer-tools button[aria-pressed=true]{background:var(--color-paper);color:var(--color-ink);border-color:var(--color-paper)}
+.offer-tools button:hover{border-color:var(--color-paper)}
+.offer-tools button:focus-visible,.offer-details:focus-visible{outline-color:var(--color-paper)}
+.offer-badge{position:absolute;right:18px;top:18px;background:var(--color-glass);padding:14px 16px;border-radius:9px;display:flex;align-items:flex-end;gap:5px}
+.offer-badge strong{font-size:36px;font-weight:400;letter-spacing:-1.5px;line-height:1}
+.offer-badge small{font-size:10px;max-width:40px}
+.offer-details{display:block;width:100%;text-align:left;border:0;background:var(--color-paper);color:var(--color-ink);border-radius:10px;padding:18px 20px;min-height:94px}
+.offer-details strong{display:block;font-size:15px;line-height:1.35;font-weight:600;margin-bottom:3px}
+.offer-details span{display:block;font-size:13px;line-height:1.4}
+.offer-details:hover{background:var(--color-surface)}
+.offer-mark{position:absolute;top:33%;left:50%;transform:translateX(-50%);font-size:42px;letter-spacing:-2px;font-weight:500;max-width:85%;text-align:center;line-height:1.1}
+.offer-mark svg{width:68px;height:68px;display:block}
+.offer-category{display:block;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--color-card-muted);margin-top:12px}
+.feed-footer{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:20px 0;color:var(--color-muted);font-size:12px;min-height:60px}
+.feed-footer button{padding:8px 0;border:0;background:none;text-decoration:underline;text-underline-offset:4px;white-space:nowrap}
+.empty-state{padding:64px 20px;text-align:center;background:var(--color-surface);border-radius:10px}
+.empty-state h2{font-size:24px;font-weight:500;letter-spacing:-.5px}
+.empty-state p{color:var(--color-muted);line-height:1.5}
+.solid-button{display:inline-flex;justify-content:center;align-items:center;border:0;background:var(--color-ink);color:var(--color-paper);padding:14px 20px;border-radius:4px;white-space:nowrap;font:inherit}
+.solid-button:hover{background:var(--color-card)}
+footer{display:flex;gap:20px;justify-content:space-between;flex-wrap:wrap;border-top:1px solid var(--color-line);margin:20px 24px 0;padding:24px 0;font-size:12px}
+footer span{color:var(--color-muted)}
+dialog{width:min(480px,calc(100% - 32px));border:1px solid var(--color-line);padding:28px;background:var(--color-paper);color:var(--color-ink);border-radius:12px}
+dialog::backdrop{background:var(--color-overlay)}
+.dialog-top{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.dialog-top .eyebrow{margin:0}
+.close-button{border:0;background:var(--color-surface);width:36px;height:36px;border-radius:50%;font-size:24px}
+dialog h2{font-size:28px;letter-spacing:-.8px;font-weight:500;line-height:1.15}
+dialog p{font-size:14px;line-height:1.6}
+dialog .dialog-note{font-size:12px;color:var(--color-muted);margin:20px 0 28px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+@media(min-width:40rem){.offer-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.intro{grid-template-columns:minmax(0,1fr) minmax(240px,.55fr);align-items:center}.offer-wide{grid-column:span 2;min-height:390px}.headline-row{align-items:flex-end}.round-link{width:48px;height:48px}}
+@media(min-width:64rem){.topbar{margin:0 32px}main{padding:48px 32px 0}.intro{grid-template-columns:minmax(0,1fr) minmax(300px,.45fr);gap:64px;margin-bottom:48px}.desktop-break{display:block}.offer-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.offer{min-height:330px}.offer-wide{min-height:410px}.headline-row{gap:40px}.points-summary{min-height:180px}.intro-copy .eyebrow{margin-bottom:24px}footer{margin-inline:32px}}
+@media(prefers-reduced-motion:no-preference){button,a{transition:background .16s ease,box-shadow .16s ease}button:active,.round-link:active{transform:translateY(1px)}}
