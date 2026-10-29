@@ -54,7 +54,7 @@ body[data-palette=blue] .tile-upcoming { background: var(--color-tile-mid); }
 body[data-palette=blue] .tile-back { background: var(--color-tile-deep) !important; }
 body[data-palette=blue] .trend-chart polyline { stroke: var(--color-tile-white); }
 :is(.tile-arrow-btn,.flip-toggle,.destination-pause) { border-radius: 0; }
-/* A single customization tile opens the two-step swap picker. */
+/* Customize directly on the dashboard. */
 .tile-customize {
   border: 1px dashed var(--color-tile-muted); border-radius: 0;
   padding: 38px 40px; display: flex; flex-direction: column;
@@ -67,22 +67,63 @@ body[data-palette=blue] .trend-chart polyline { stroke: var(--color-tile-white);
 .tile-customize:hover { border-style: solid; }
 .tile-customize:focus-visible { outline: 3px solid var(--color-tile-bright); outline-offset: -6px; }
 body[data-palette=blue] .tile-customize { background: var(--color-tile-deep); color: var(--color-tile-white); border-color: var(--color-tile-line); }
-.tile-back-choice { display: block; margin-top: 16px; padding: 8px 0; border: 0; background: none; color: var(--color-tile-deep); }
-.tile-picker {
-  width: min(520px,calc(100% - 32px)); padding: 28px;
-  color: var(--color-tile-ink); background: var(--color-tile-white);
-  border: 1px solid var(--color-tile-line); font: 14px var(--font-controls);
+/* Wrappers keep editing controls separate from the original tile links. */
+.tile-slot { position: relative; min-width: 0; isolation: isolate; }
+.tile-slot > .tile { width: 100%; height: 100%; display: block; }
+.tile-editor[hidden], .tile-edit-controls[hidden] { display: none; }
+.tile-editor {
+  position: sticky; top: 0; z-index: 20; display: flex;
+  align-items: center; justify-content: space-between; gap: 20px;
+  padding: 18px 28px; background: var(--color-tile-white);
+  border-bottom: 1px solid var(--color-tile-line);
+  color: var(--color-tile-ink); font: 14px var(--font-controls);
 }
-.tile-picker::backdrop { background: var(--color-tile-glass); }
-.tile-picker-heading { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
-.tile-picker h2 { font-size: 24px; font-weight: 500; }
-.tile-picker p { line-height: 1.5; margin: 16px 0; color: var(--color-tile-muted); }
-.tile-picker button { cursor: pointer; font: inherit; border-radius: 0; }
-.tile-picker-close { width: 36px; height: 36px; border: 0; background: var(--color-tile-pale); font-size: 24px !important; }
-.tile-options { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 8px; }
-.tile-options button { padding: 14px 12px; text-align: left; border: 1px solid var(--color-tile-line); background: var(--color-tile-pale); color: var(--color-tile-ink); }
-.tile-options button:hover { color: var(--color-tile-white); background: var(--color-tile-bright); }
-.tile-picker button:focus-visible { outline: 2px solid var(--color-tile-bright); outline-offset: 3px; }
-.tile-reset { margin-top: 20px; padding: 10px 0; color: var(--color-tile-deep); background: none; border: 0; text-decoration: underline; }
+.tile-editor strong { font-size: 16px; font-weight: 600; }
+.tile-edit-hint { margin-top: 5px; color: var(--color-tile-muted); line-height: 1.5; }
+.tile-editor-actions { display: flex; align-items: center; gap: 18px; flex-shrink: 0; }
+.tile-editor button { cursor: pointer; font: inherit; }
+.tile-reset { padding: 10px 0; color: var(--color-tile-muted); background: none; border: 0; text-decoration: underline; text-underline-offset: 3px; }
+.tile-edit-done { padding: 11px 24px; border: 1px solid var(--color-tile-deep); background: var(--color-tile-deep); color: white; }
+.tile-edit-controls { position: absolute; inset: 0; z-index: 10; }
+.tile-edit-controls button { cursor: pointer; font: 500 14px var(--font-controls); }
+.tile-swap {
+  position: absolute; inset: 0; width: 100%; border: 2px solid transparent;
+  background: transparent; display: flex; align-items: flex-end; justify-content: center;
+  padding: 28px 18px; color: var(--color-tile-ink);
+}
+.tile-swap-label {
+  background: var(--color-tile-white); padding: 12px 20px;
+  box-shadow: 0 2px 12px #142d4c26;
+}
+.tile-delete {
+  position: absolute; top: 18px; right: 18px; display: flex; align-items: center; gap: 7px;
+  min-height: 44px; padding: 10px 13px; color: var(--color-tile-ink);
+  background: var(--color-tile-white); border: 1px solid var(--color-tile-line);
+  box-shadow: 0 2px 12px #142d4c26;
+}
+.tile-delete svg { width: 18px; height: 18px; }
+.tile-swap-label, .tile-delete { opacity: 0; transition: opacity .15s; }
+.is-editing .tile-slot { outline: 1px dashed var(--color-tile-muted); outline-offset: -1px; }
+.is-editing .tile-slot > .tile { pointer-events: none; }
+.is-editing .tile-slot .flip-board { transform: none; transition: none; }
+.is-editing .tile-slot :is(.flip-toggle, .tile-arrow-btn, .destination-controls) { visibility: hidden; }
+.tile-slot:hover .tile-swap-label, .tile-slot:focus-within .tile-swap-label,
+.tile-slot:hover .tile-delete, .tile-slot:focus-within .tile-delete,
+.tile-slot.is-selected .tile-swap-label { opacity: 1; }
+.tile-swap:hover { background: #142d4c26; border-color: var(--color-tile-white); }
+.tile-slot.is-selected .tile-swap { border: 3px solid var(--color-tile-white); background: #142d4c40; }
+.tile-slot.is-selected { outline: 2px solid var(--color-tile-bright); outline-offset: 2px; z-index: 1; }
+.tile-delete:hover { background: #fff0ee; color: #a52a23; border-color: #a52a23; }
+.tile-editor button:focus-visible, .tile-edit-controls button:focus-visible { outline: 3px solid var(--color-tile-bright); outline-offset: -4px; }
+@media (hover: none), (pointer: coarse) {
+  .tile-swap-label, .tile-delete { opacity: 1; }
+}
+@media (max-width: 700px) {
+  .tile-editor { align-items: flex-start; padding: 14px; gap: 12px; flex-wrap: wrap; }
+  .tile-editor-actions { width: 100%; justify-content: space-between; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tile-swap-label, .tile-delete { transition: none; }
+}
 .tile-announcement { position: absolute; width: 1px; height: 1px; clip-path: inset(50%); overflow: hidden; }
 @media(max-width:700px) { .app-shell { margin: 0; } }
