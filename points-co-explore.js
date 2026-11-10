@@ -22,7 +22,8 @@ function readIds(key) {
 }
 let saved = readIds('points-co-saved-offers');
 let hidden = readIds('points-co-hidden-offers');
-let category = 'Featured';
+const requestedCategory = new URLSearchParams(location.search).get('category');
+let category = categories.some(button => button.dataset.category === requestedCategory) ? requestedCategory : 'Featured';
 let savedOnly = false;
 let dialogTrigger;
 function persist() {

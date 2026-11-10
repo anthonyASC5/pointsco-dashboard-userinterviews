@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Your travel loyalty points assistant. Explore rewards, plan redemptions, and keep your accounts in view.">
+  <title>Points Co — Travel rewards assistant</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="optivoy-chat.css">
+  <script src="optivoy-chat.js" defer></script>
+  <link rel="stylesheet" href="points-co-theme.css">
+</head>
+<body>
+  <svg class="icon-definitions" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <symbol id="wallet-icon" viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="15" rx="3"/><path d="M5 6V4a1 1 0 0 1 1-1h11l3 3M3 11h18M16 15h2"/></symbol>
+    <symbol id="ticket-icon" viewBox="0 0 24 24"><path d="M3 7h18v4a2 2 0 0 0 0 4v3H3v-3a2 2 0 0 0 0-4Z"/><path d="M9 10h6M9 14h4"/></symbol>
+    <symbol id="chevron-icon" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></symbol>
+    <symbol id="arrow-icon" viewBox="0 0 24 24"><path d="M12 19V5m-6 6 6-6 6 6"/></symbol>
+  </svg>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar" aria-label="Chat navigation">
+      <nav class="primary-nav" aria-label="Main">
+        <button class="nav-item" id="new-chat"><span class="plus-icon" aria-hidden="true">+</span>New chat</button>
+        <button class="nav-item" data-panel="wallet"><svg class="icon"><use href="#wallet-icon"/></svg>Wallet</button>
+        <button class="nav-item" data-panel="bookings"><svg class="icon"><use href="#ticket-icon"/></svg>Bookings</button>
+      </nav>
+      <nav class="history" aria-label="Conversations">
+        <h2>Pinned</h2>
+        <button data-prompt="Maximize Hyatt redemption">Maximize Hyatt redemption</button>
+        <button data-prompt="Amex Platinum renewal">Amex Platinum renewal</button>
+        <h2>Recent</h2>
+        <div id="recent-chats">
+          <button data-prompt="Upcoming SFO → NRT trip">Upcoming SFO → NRT trip</button>
+          <button data-prompt="Transfer partners for Bonvoy">Transfer partners for Bonvoy</button>
+          <button data-prompt="Sapphire Reserve travel credit">Sapphire Reserve travel credit</button>
+          <button data-prompt="AARP discount at Hertz">AARP discount at Hertz</button>
+        </div>
+      </nav>
+      <div class="profile"><span class="avatar">MC</span><div>Mara Chen<small>8 accounts linked</small></div></div>
+    </aside>
+    <div class="workspace">
+      <header class="topbar">
+        <button class="menu-toggle" aria-label="Open navigation" aria-expanded="false" aria-controls="sidebar">☰</button>
+        <a class="wordmark" href="index.html" aria-label="Points Co dashboard">Points Co</a>
+        <button class="rewards-pill" data-panel="wallet">8 accounts <span class="pill-divider">·</span> <span>$9,319 in rewards</span><svg class="icon"><use href="#chevron-icon"/></svg></button>
+      </header>
+      <main class="main" id="main">
+        <section class="chat-stage" aria-label="Travel rewards assistant">
+          <div id="welcome">
+            <h1>What can I help with, Mara?</h1>
+            <article class="briefing">
+              <p class="eyebrow"><span class="status-dot"></span>Daily briefing · Oct 6</p>
+              <p class="briefing-summary">2 accounts expiring soon, $247 earned this month, and you're one flight away from Premier Gold.</p>
+              <button class="briefing-link" data-panel="briefing">View full briefing <svg class="icon"><use href="#chevron-icon"/></svg></button>
+            </article>
+          </div>
+          <div class="conversation" id="conversation" role="log" aria-live="polite" aria-label="Conversation" hidden></div>
+          <form class="composer" id="chat-form">
+            <label class="sr-only" for="message">Ask Points Co about your points</label>
+            <input id="message" name="message" placeholder="Ask Points Co anything about your points..." autocomplete="off" maxlength="2000" required>
+            <button type="submit" class="send-button" aria-label="Send message"><svg class="icon"><use href="#arrow-icon"/></svg></button>
+          </form>
+          <div class="suggestions" id="suggestions" aria-label="Suggested prompts">
+            <button data-prompt="How much are my Amex points worth?">How much are my Amex points worth?</button>
+            <button data-prompt="Book a hotel with my Hyatt balance">Book a hotel with my Hyatt balance</button>
+            <button data-prompt="Which accounts need attention?">Which accounts need attention?</button>
+          </div>
+          <p class="demo-note" id="demo-note" hidden>Demo conversation · Live AI and loyalty accounts are not connected.</p>
+        </section>
+        <aside class="wallet-preview" aria-label="Rewards wallet preview">
+          <div class="card-stack" aria-hidden="true"><div class="loyalty-card card-blue"></div><div class="loyalty-card card-pink"></div><div class="loyalty-card card-orange"></div></div>
+          <div class="wallet-front"><button class="wallet-count" data-panel="wallet">8 accounts <svg class="icon"><use href="#chevron-icon"/></svg></button><div class="wallet-body"><strong>$9,319</strong><button class="wallet-button" data-panel="wallet"><svg class="icon"><use href="#wallet-icon"/></svg>View wallet</button></div></div>
+        </aside>
+      </main>
+    </div>
+  </div>
+  <dialog id="details-dialog" aria-labelledby="dialog-title">
+    <div class="dialog-heading"><h2 id="dialog-title"></h2><button id="close-dialog" aria-label="Close details">×</button></div>
+    <div id="dialog-content"></div>
+  </dialog>
+</body>
+</html>

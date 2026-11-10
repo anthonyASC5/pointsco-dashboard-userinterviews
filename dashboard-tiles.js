@@ -5,8 +5,8 @@
   const dashboard = document.querySelector('.dashboard');
   if (!dashboard) return;
   const tiles = new Map();
-  const storageKey = 'points-co-tile-order';
-  const removedKey = 'points-co-removed-tiles';
+  const storageKey = dashboard.dataset.storageKey || 'points-co-tile-order';
+  const removedKey = dashboard.dataset.storageKey ? `${storageKey}-removed` : 'points-co-removed-tiles';
   let editing = false;
   let selectedId;
   let removed = new Set();
@@ -16,7 +16,7 @@
   customize.className = 'tile tile-customize';
   customize.setAttribute('aria-label', 'Customize tiles');
   customize.setAttribute('aria-pressed', 'false');
-  customize.innerHTML = '<span class="customize-symbol" aria-hidden="true">+</span><span><span class="tile-name">Customize tiles</span><span class="tile-sub">Swap or remove tiles</span></span>';
+  customize.innerHTML = '<span class="customize-symbol" aria-hidden="true">+</span><span class="tile-content"><span class="tile-name">Customize tiles</span><span class="tile-sub">Swap or remove tiles</span></span>';
 
   const editor = document.createElement('section');
   editor.className = 'tile-editor';

@@ -137,3 +137,10 @@ dialog.addEventListener('click', event => {
   const bounds = dialog.getBoundingClientRect();
   if (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom) dialog.close();
 });
+
+// Accept the dashboard composer or suggestion once, keeping the existing chat flow.
+try {
+  const dashboardPrompt = sessionStorage.getItem('optivoy-dashboard-prompt');
+  sessionStorage.removeItem('optivoy-dashboard-prompt');
+  if (dashboardPrompt) sendMessage(dashboardPrompt);
+} catch {}

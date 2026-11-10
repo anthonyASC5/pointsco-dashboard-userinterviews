@@ -1,0 +1,627 @@
+<!--  users swap tiles out  -->
+  <!-- Blue shades for all, try explore page and wallet page to match design -->
+<!-- + - / for users to manipulate tiles - Flexible tiles -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Points Co — Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{
+  width:100%;min-height:100%;
+  font-family:'Inter',sans-serif;
+  background:#E9E7E2;
+  overflow-x:clip;
+}
+body{min-height:100vh}
+
+/* ── NAV ── */
+.nav{
+  height:72px;background:#fff;
+  border-bottom:1px solid rgba(0,0,0,0.07);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 40px;
+  position:relative;
+}
+.nav-logo{display:flex;align-items:center;gap:14px}
+.nav-circle{
+  width:44px;height:44px;border-radius:50%;
+  border:1.5px solid #111;
+  display:flex;align-items:center;justify-content:center;
+}
+.nav-wordmark{
+  font-size:13px;font-weight:400;
+  letter-spacing:5px;text-transform:uppercase;color:#111;
+}
+.nav-right{display:flex;align-items:center;gap:14px}
+.palette-toggle{display:inline-flex;align-items:center;gap:8px;border:0;background:none;padding:8px 0;color:#526174;font:500 11px 'Inter',sans-serif;cursor:pointer;white-space:nowrap}
+.palette-track{display:block;position:relative;width:32px;height:18px;border-radius:999px;background:#D8DDE3;transition:background .18s}
+.palette-track::after{content:'';position:absolute;top:3px;left:3px;width:12px;height:12px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.15);transition:transform .18s}
+.palette-toggle[aria-checked="true"] .palette-track{background:#2866B0}
+.palette-toggle[aria-checked="true"] .palette-track::after{transform:translateX(14px)}
+.palette-toggle:focus-visible{outline:2px solid #2866B0;outline-offset:5px;border-radius:4px}
+.bell-wrap{
+  width:40px;height:40px;border-radius:50%;
+  border:1px solid #E5E7EB;background:#F9FAFB;
+  display:flex;align-items:center;justify-content:center;
+  position:relative;cursor:pointer;
+}
+.bell-dot{
+  position:absolute;top:8px;right:8px;
+  width:8px;height:8px;border-radius:50%;
+  background:#F47241;border:1.5px solid #fff;
+}
+.av-circle{
+  width:40px;height:40px;border-radius:50%;
+  border:1.5px solid #D1D5DB;background:#fff;
+  display:flex;align-items:center;justify-content:center;
+  font-size:15px;font-weight:600;color:#111;
+  cursor:pointer;
+}
+
+/* ── DASHBOARD GRID ── */
+.dashboard{
+  min-height:calc(100vh - 72px);
+  padding:14px;gap:10px;
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  grid-template-rows:clamp(540px,35vw,640px) repeat(2,minmax(500px,auto));
+}
+
+/* ── TILE BASE ── */
+.tile{
+  position:relative;min-width:0;overflow:hidden;cursor:pointer;
+}
+.tile-inner{
+  position:relative;z-index:1;
+  height:100%;
+  display:flex;flex-direction:column;
+  justify-content:space-between;
+  padding:38px 40px;
+}
+.fill-svg{
+  position:absolute;inset:0;
+  width:100%;height:100%;display:block;
+  object-fit:cover;
+}
+.tile-arrow-btn{
+  position:absolute;top:28px;right:28px;z-index:2;
+  width:36px;height:36px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+}
+.tile-arrow-btn.on-dark{border:1.5px solid rgba(255,255,255,0.35)}
+.tile-arrow-btn.on-light{border:1.5px solid rgba(0,0,0,0.18)}
+.icon-wrap{display:flex;margin-bottom:4px}
+.tile-name{font-size:21px;font-weight:600;letter-spacing:-0.3px;line-height:1.2}
+.tile-sub{font-size:13px;margin-top:5px;opacity:0.55;font-weight:400}
+
+/* ── HERO ── */
+.tile-hero{
+  background:#B5892C;
+}
+.hero-greeting{font-size:22px;font-weight:400;color:rgba(255,255,255,0.8);margin-bottom:6px}
+.hero-name{font-size:clamp(38px,4.3vw,68px);font-weight:700;color:#fff;letter-spacing:-3px;line-height:0.95;margin-bottom:22px}
+.hero-tagline{font-size:17px;color:rgba(255,255,255,0.7);margin-bottom:0}
+.tile-hero{cursor:default}
+.tile-hero .tile-inner{padding:38px 32px !important}
+.tile-explore{background:#B8A181;color:#fff;text-decoration:none}
+.tile-explore .tile-name{font-size:clamp(36px,3.8vw,60px);letter-spacing:-2px}
+.tile-explore .tile-sub{opacity:.75;line-height:1.5;max-width:220px}
+.tile-explore:focus-visible{outline:3px solid #111;outline-offset:3px}
+.tile-explore:hover{background:#AA9272}
+.tile-explore .icon-wrap svg{width:48px;height:48px}
+.tile-explore .tile-arrow-btn{border-color:rgba(255,255,255,.65)}
+
+/* ── MESSAGES ── */
+.tile-messages{background:#1A4A8A;text-decoration:none;color:inherit}
+.tile-messages:focus-visible{outline:3px solid #111;outline-offset:3px}
+.msg-count{font-size:86px;font-weight:800;color:#fff;letter-spacing:-5px;line-height:1}
+.msg-lbl{font-size:17px;font-weight:400;color:rgba(255,255,255,0.7);margin-top:4px}
+
+/* ── ACTIVITIES ── */
+.tile-activities{background:#211118;color:#fff;text-decoration:none;isolation:isolate}
+.tile-activities::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.08) 35%,rgba(0,0,0,.82));pointer-events:none}
+.tile-activities .tile-inner{justify-content:flex-end}
+.tile-activities .tile-sub{opacity:.85}
+.tile-activities:focus-visible{outline:3px solid #fff;outline-offset:-5px}
+
+/* ── HOTELS ── */
+.tile-hotels{background:#800020}
+/* ── GROUND TRAVEL ── */
+.tile-ground{background:#111}
+/* ── MY TRIPS ── */
+.tile-mytrips{background:#C65A16}
+/* ── BENEFITS ── */
+.tile-benefits{background:#2D6E45}
+/* ── EXPENSES ── */
+.tile-expenses{background:#6B3FA0}
+/* ── UPCOMING ── */
+.tile-upcoming{background:#243C45;cursor:default;color:#fff;isolation:isolate}
+.destination-slides,.destination-slide,.destination-slide img{position:absolute;inset:0;width:100%;height:100%}
+.destination-slide{opacity:0;transition:opacity 1.4s ease;pointer-events:none}
+.destination-slide.is-active{opacity:1}
+.destination-slide img{object-fit:cover}
+.destination-slide figcaption{position:absolute;left:40px;top:38px;font-size:12px;font-weight:500;letter-spacing:.04em;text-shadow:0 1px 8px rgba(0,0,0,.5);z-index:1}
+.tile-upcoming::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.25),transparent 35%,rgba(0,0,0,.15) 55%,rgba(0,0,0,.75));pointer-events:none}
+.tile-upcoming .tile-inner{justify-content:flex-end;pointer-events:none;z-index:1}
+.tile-upcoming .tile-sub{opacity:.85}
+.destination-link{position:absolute;inset:0;z-index:1}
+.destination-link:focus-visible{outline:3px solid #fff;outline-offset:-5px}
+.destination-controls{position:absolute;top:28px;right:28px;z-index:2;display:flex;align-items:center;gap:12px}
+.destination-dots{display:flex;gap:5px}
+.destination-dot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.4)}
+.destination-dot.is-active{background:#fff}
+.destination-pause{width:36px;height:36px;border-radius:50%;border:1px solid rgba(255,255,255,.5);background:rgba(0,0,0,.18);color:#fff;display:grid;place-items:center;cursor:pointer}
+.destination-pause:focus-visible{outline:3px solid #FFCE73;outline-offset:4px}
+.destination-pause svg{width:14px;height:14px}
+@media(max-width:640px){.destination-slide figcaption{left:28px;top:32px}}
+@media(prefers-reduced-motion:reduce){.destination-slide{transition:none}}
+/* ── HELP ── */
+.tile-help{background:#1E2D45}
+
+/* Blue palette overrides both faces of the existing flip tiles. */
+body[data-palette="blue"] .tile-hero{background:#3874AA}
+body[data-palette="blue"] .tile-hero>.fill-svg{visibility:hidden}
+body[data-palette="blue"] .tile-messages{background:#204F8B}
+body[data-palette="blue"] .tile-hotels{--blue-tile:var(--color-tile-deep)}
+body[data-palette="blue"] .tile-ground{--blue-tile:#2053B8}
+body[data-palette="blue"] .tile-mytrips{--blue-tile:var(--color-tile-mid)}
+body[data-palette="blue"] .tile-benefits{--blue-tile:#4759DC}
+body[data-palette="blue"] .tile-expenses{--blue-tile:var(--color-tile-bright)}
+body[data-palette="blue"] .tile-upcoming{--blue-tile:#346D9E}
+body[data-palette="blue"] .tile-help{background:#1D2E48}
+body[data-palette="blue"] .tile{--back-color:#173C65!important;--front-ink:#fff!important}
+body[data-palette="blue"] :is(.tile-hotels,.tile-ground,.tile-mytrips,.tile-benefits,.tile-expenses,.tile-upcoming) .tile-face{background:var(--blue-tile)!important}
+body[data-palette="blue"] :is(.tile-hotels,.tile-mytrips) :is(.tile-name,.tile-sub){color:#fff!important}
+body[data-palette="blue"] :is(.tile-hotels,.tile-mytrips) .icon-wrap svg{stroke:#fff}
+body[data-palette="blue"] .flip-toggle.is-light{color:#fff;border-color:rgba(255,255,255,.45);background:rgba(0,0,0,.12)}
+body[data-palette="blue"] .tile-sub{opacity:.85}
+
+/* Flip boards: the stationary tile keeps the hover target stable. */
+.tile.flip-tile{perspective:1600px;background:transparent;isolation:isolate}
+.flip-board{position:absolute;inset:0;transform-style:preserve-3d;transition:transform .65s cubic-bezier(.22,.7,.2,1)}
+.tile.is-flipped .flip-board{transform:rotateX(180deg)}
+.tile-face{position:absolute;inset:0;overflow:hidden;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.tile-front{transform:rotateX(0deg)}
+.tile-back{transform:rotateX(180deg);background:var(--back-color,#1E2D45);color:#fff;padding:28px 32px;display:flex;flex-direction:column;justify-content:space-between;gap:8px}
+.flip-toggle{position:absolute;top:28px;right:28px;z-index:5;width:36px;height:36px;border:1.5px solid rgba(255,255,255,.45);border-radius:50%;background:rgba(0,0,0,.12);color:#fff;display:grid;place-items:center;cursor:pointer;transition:background .2s}
+.flip-toggle.is-light{border-color:rgba(0,0,0,.25);color:#111;background:rgba(255,255,255,.3)}
+.is-flipped .flip-toggle{border-color:rgba(255,255,255,.45);color:#fff;background:rgba(0,0,0,.12)}
+.flip-toggle:hover{background:rgba(128,128,128,.3)}
+.flip-toggle:focus-visible{outline:3px solid #FFCE73;outline-offset:5px}
+.flip-toggle svg{width:16px;height:16px}
+.tile-metric{position:absolute;left:40px;top:40%;color:var(--front-ink,#fff)}
+.tile-metric strong{display:block;font-size:clamp(42px,3.6vw,66px);font-weight:700;letter-spacing:-3px;line-height:1}
+.tile-metric small{display:block;font-size:18px;font-weight:600;margin:5px 0 14px}
+.trend{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;letter-spacing:0;line-height:1.4}
+.trend svg{width:19px;height:19px;flex-shrink:0}
+.tile-metric .trend{color:inherit}
+.insight-kicker{font-size:11px;text-transform:uppercase;letter-spacing:.15em;opacity:.65;margin-bottom:10px}
+.insight-title{font-size:22px;font-weight:600;letter-spacing:-.5px;padding-right:38px;line-height:1.15}
+.insight-value{font-size:44px;font-weight:700;letter-spacing:-2px;line-height:1;margin:8px 0 12px}
+.tile-hero .insight-value{font-size:76px}
+.insight-unit{font-size:13px;opacity:.7;letter-spacing:0;margin-top:7px}
+.tile-back .trend{padding:5px 9px;background:rgba(255,255,255,.1);border-radius:3px}
+.trend-up{color:#BDEACB}.trend-down{color:#FFD0AF}
+.trend-context{font-size:11px;opacity:.65;margin-top:7px}
+.trend-chart{display:block;width:100%;height:36px;margin:8px 0 0;overflow:visible}
+.chart-labels{display:flex;justify-content:space-between;font-size:10px;opacity:.6;margin-top:5px}
+.insight-explanation{font-size:13px;line-height:1.45;max-width:540px}
+.insight-footer{display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(255,255,255,.2);padding-top:10px;font-size:10px;letter-spacing:.04em;opacity:.65}
+
+/* Reflow the boards to the viewport while keeping room for flipped details. */
+@media(max-width:1199px){
+  .dashboard{grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:none;grid-auto-rows:500px}
+  .tile-hero{min-height:500px}
+}
+@media(max-width:640px){
+  .nav{padding:0 20px}
+  .dashboard{grid-template-columns:minmax(0,1fr);padding:10px;gap:10px}
+  .tile-hero{grid-column:span 1}
+  .tile-inner{padding:32px 28px}
+  .tile-hero .tile-inner{padding:36px 28px !important}
+  .hero-name{font-size:56px;letter-spacing:-2px}
+  .hero-tagline{font-size:16px}
+  .tile-metric{left:28px}
+  .tile-back{padding:28px}
+  .tile-hero .insight-value{font-size:56px}
+}
+
+@media(prefers-reduced-motion:reduce){.flip-board{transition:none}.flip-toggle{transition:none}.palette-track,.palette-track::after{transition:none}}
+
+</style>
+  <link rel="stylesheet" href="points-co-theme.css">
+</head>
+<body>
+
+<!-- ══ NAV ══ -->
+<nav class="nav">
+  <div class="nav-logo">
+    <div class="nav-circle">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <circle cx="8" cy="8" r="3.5" fill="#111"/>
+      </svg>
+    </div>
+    <span class="nav-wordmark">Points Co</span>
+  </div>
+  <div class="nav-right">
+    <button class="palette-toggle" id="palette-toggle" type="button" role="switch" aria-checked="false" aria-label="Blue tile colors">
+      <span>Blue tiles</span><span class="palette-track" aria-hidden="true"></span>
+    </button>
+    <div class="bell-wrap">
+      <svg width="18" height="18" fill="none" stroke="#555" stroke-width="1.8" viewBox="0 0 24 24">
+        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+        <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+      </svg>
+      <div class="bell-dot"></div>
+    </div>
+    <div class="av-circle">A</div>
+  </div>
+</nav>
+
+<!-- ══ GRID ══ -->
+<div class="dashboard">
+
+  <!-- ━━━━ HERO ━━━━ -->
+  <div class="tile tile-hero">
+    <!-- Subtle grain texture overlay -->
+    <svg class="fill-svg" viewBox="0 0 800 640" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="hero-glow" cx="30%" cy="70%" r="70%">
+          <stop offset="0%" stop-color="#D4A030" stop-opacity="0.4"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+        <radialGradient id="hero-glow2" cx="80%" cy="30%" r="50%">
+          <stop offset="0%" stop-color="#C06020" stop-opacity="0.25"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+      </defs>
+      <rect width="800" height="640" fill="url(#hero-glow)"/>
+      <rect width="800" height="640" fill="url(#hero-glow2)"/>
+    </svg>
+    <div class="tile-inner" style="padding:48px 56px">
+      <div>
+        <div class="hero-greeting">Good morning,</div>
+        <div class="hero-name">Anthony</div>
+        <div class="hero-tagline" style="margin-top:18px">How can I help with your travel today?</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ━━━━ EXPLORE ━━━━ -->
+  <a class="tile tile-explore" href="points-co-explore.html" aria-label="Explore ways to use your points">
+    <span class="tile-arrow-btn on-dark" aria-hidden="true">
+      <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M7 17 17 7M7 7h10v10"/></svg>
+    </span>
+    <div class="tile-inner">
+      <div class="icon-wrap" aria-hidden="true">
+        <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="24" cy="24" r="20"/><path d="m31 17-4 10-10 4 4-10z"/><circle cx="24" cy="24" r="1" fill="currentColor"/></svg>
+      </div>
+      <div><div class="tile-name">Explore</div><div class="tile-sub">Discover what your points can do.</div></div>
+    </div>
+  </a>
+
+  <!-- ━━━━ MESSAGES ━━━━ -->
+  <a class="tile tile-messages" href="optivoy-chat.html" aria-label="Start a new chat with your travel loyalty points assistant">
+    <div class="tile-inner">
+      <div>
+        <svg width="48" height="48" fill="none" stroke="rgba(255,255,255,0.85)" stroke-width="1.7" viewBox="0 0 24 24">
+          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+          <polyline points="22,6 12,13 2,6"/>
+        </svg>
+      </div>
+      <div>
+        <div class="msg-count">Start A New Chat!</div>
+        <div class="msg-lbl">Chat! &nbsp;&rarr;</div>
+      </div>
+    </div>
+  </a>
+
+  <!-- ━━━━ BENEFITS ━━━━ -->
+  <div class="tile tile-benefits">
+    <div class="tile-arrow-btn on-dark">
+      <svg width="15" height="15" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2.2" viewBox="0 0 24 24"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+    </div>
+    <div class="tile-inner">
+      <div class="icon-wrap">
+        <svg width="46" height="46" fill="none" stroke="rgba(255,255,255,0.88)" stroke-width="1.6" viewBox="0 0 24 24">
+          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+        </svg>
+      </div>
+      <div>
+        <div class="tile-name" style="color:#fff">My Miles</div>
+        <div class="tile-sub" style="color:#fff">Your balance &amp; rewards</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ━━━━ MY TRIPS ━━━━ -->
+  <div class="tile tile-mytrips">
+    <div class="tile-arrow-btn on-dark">
+      <svg width="14" height="14" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="2.2" viewBox="0 0 24 24"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+    </div>
+    <div class="tile-inner">
+      <div class="icon-wrap">
+        <svg width="46" height="46" fill="none" stroke="#fff" stroke-width="1.6" viewBox="0 0 24 24">
+          <rect x="2" y="7" width="20" height="14" rx="2"/>
+          <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/>
+          <line x1="12" y1="12" x2="12" y2="16"/>
+          <line x1="10" y1="14" x2="14" y2="14"/>
+        </svg>
+      </div>
+      <div>
+        <div class="tile-name" style="color:#fff">My Trips</div>
+        <div class="tile-sub" style="color:#fff">View all bookings</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ━━━━ BOOK A TRIP ━━━━ -->
+  <section class="tile tile-upcoming" aria-label="Book a trip! · destination inspiration" aria-roledescription="carousel">
+    <a class="destination-link" href="optivoy-chat.html" aria-label="Book a trip — start a chat with Points Co"></a>
+    <div class="destination-slides">
+      <figure class="destination-slide is-active">
+        <img src="assets/destinations/california.jpg" alt="Turquoise Pacific waves along the cliffs of Big Sur, California" decoding="async"/>
+        <figcaption>Big Sur, California</figcaption>
+      </figure>
+      <figure class="destination-slide" aria-hidden="true">
+        <img src="assets/destinations/japan.jpg" alt="Chureito Pagoda overlooking Mount Fuji in Japan" decoding="async"/>
+        <figcaption>Mount Fuji, Japan</figcaption>
+      </figure>
+      <figure class="destination-slide" aria-hidden="true">
+        <img src="assets/destinations/italy.jpg" alt="Colorful cliffside buildings and boats off Positano, Italy" decoding="async"/>
+        <figcaption>Positano, Italy</figcaption>
+      </figure>
+    </div>
+    <div class="destination-controls">
+      <div class="destination-dots" aria-hidden="true"><span class="destination-dot is-active"></span><span class="destination-dot"></span><span class="destination-dot"></span></div>
+      <button class="destination-pause" type="button" aria-label="Pause destination slideshow"></button>
+    </div>
+    <div class="tile-inner">
+      <div>
+        <div class="tile-name">Book a trip!</div>
+        <div class="tile-sub">A little inspiration for your next escape</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ━━━━ HOTELS ━━━━ -->
+  <div class="tile tile-hotels">
+    <div class="tile-arrow-btn on-dark">
+      <svg width="14" height="14" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="2.2" viewBox="0 0 24 24"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+    </div>
+    <div class="tile-inner">
+      <div class="icon-wrap">
+        <svg width="46" height="46" fill="none" stroke="#fff" stroke-width="1.6" viewBox="0 0 24 24">
+          <path d="M2 20V8a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v12"/>
+          <path d="M2 20h20"/>
+          <path d="M9 20V14h6v6"/>
+          <rect x="5" y="10" width="3" height="3"/>
+          <rect x="11" y="10" width="3" height="3"/>
+          <rect x="16" y="10" width="3" height="3"/>
+        </svg>
+      </div>
+      <div>
+        <div class="tile-name" style="color:#fff">Hotels</div>
+        <div class="tile-sub" style="color:#fff">Find &amp; book stays</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ━━━━ GROUND TRAVEL ━━━━ -->
+  <div class="tile tile-ground">
+    <div class="tile-arrow-btn on-dark">
+      <svg width="15" height="15" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2.2" viewBox="0 0 24 24"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+    </div>
+    <div class="tile-inner">
+      <div class="icon-wrap">
+        <svg width="46" height="46" fill="none" stroke="rgba(255,255,255,0.85)" stroke-width="1.6" viewBox="0 0 24 24">
+          <rect x="1" y="3" width="15" height="13" rx="1"/>
+          <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/>
+          <circle cx="5.5" cy="18.5" r="2.5"/>
+          <circle cx="18.5" cy="18.5" r="2.5"/>
+        </svg>
+      </div>
+      <div>
+        <div class="tile-name" style="color:#fff">Ground<br>Travel</div>
+        <div class="tile-sub" style="color:#fff">Transfers &amp; rentals</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ━━━━ ACTIVITIES ━━━━ -->
+  <a class="tile tile-activities" href="points-co-explore.html" aria-label="Activities — explore ways to use your points">
+    <img class="fill-svg" src="assets/movie-theater.png" alt="" decoding="async"/>
+    <div class="tile-inner">
+      <div>
+        <div class="tile-name">Activities</div>
+        <div class="tile-sub">Movies, rentals &amp; more</div>
+      </div>
+    </div>
+  </a>
+
+  <!-- ━━━━ EXPENSES ━━━━ -->
+  <div class="tile tile-expenses">
+    <div class="tile-arrow-btn on-dark">
+      <svg width="15" height="15" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2.2" viewBox="0 0 24 24"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+    </div>
+    <div class="tile-inner">
+      <div class="icon-wrap">
+        <svg width="46" height="46" fill="none" stroke="rgba(255,255,255,0.88)" stroke-width="1.6" viewBox="0 0 24 24">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+          <polyline points="14 2 14 8 20 8"/>
+          <line x1="8" y1="13" x2="16" y2="13"/>
+          <line x1="8" y1="17" x2="16" y2="17"/>
+          <line x1="8" y1="9" x2="10" y2="9"/>
+        </svg>
+      </div>
+      <div>
+        <div class="tile-name" style="color:#fff">Expenses</div>
+        <div class="tile-sub" style="color:#fff">Track &amp; submit</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ━━━━ HELP / SUPPORT ━━━━ -->
+  <div class="tile tile-help">
+    <div class="tile-inner">
+      <div class="icon-wrap">
+        <svg width="46" height="46" fill="none" stroke="rgba(255,255,255,0.88)" stroke-width="1.6" viewBox="0 0 24 24">
+          <path d="M3 18v-6a9 9 0 0 1 18 0v6"/>
+          <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3z"/>
+          <path d="M3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/>
+        </svg>
+      </div>
+      <div>
+        <div class="tile-name" style="color:#fff">Help / Support</div>
+        <div class="tile-sub" style="color:#fff">Get assistance</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// Concept data only; replace these series with account data when integrated.
+const insights = {
+  'tile-hotels':{title:'Hotel rewards',value:'4,400',unit:'miles earned this month',values:[2800,3100,2900,3600,4000,4400],explanation:'Hotel rewards increased by 400 miles from last month. One additional qualifying stay contributed to the increase.',color:'#5A1730',front:true},
+  'tile-ground':{title:'Ground travel',value:'28,400',unit:'miles earned this month',values:[35000,32600,33900,31400,32000,28400],explanation:'Ground travel rewards fell by 3,600 miles from last month. Fewer rental days meant fewer miles earned.',color:'#292929',front:true},
+  'tile-mytrips':{title:'Your bookings',value:'4',unit:'trips booked this month',values:[1,2,2,3,3,4],explanation:'You booked 1 more trip than last month. This total includes confirmed flight and hotel bookings.',color:'#974013'},
+  'tile-benefits':{title:'My miles & rewards',value:'28,400',unit:'miles available',values:[19500,21800,20900,24700,26000,28400],explanation:'Your available rewards grew by 2,400 miles from last month. Miles earned exceeded miles redeemed during this period.',color:'#214E35',front:true},
+  'tile-expenses':{title:'Travel expenses',value:'$1,240',unit:'submitted this month',values:[1980,1820,2050,1690,1550,1240],explanation:'Submitted travel expenses decreased by $310 from last month. Lower accommodation costs drove the reduction.',color:'#4C2778'}
+};
+const trendIcon = up => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="${up ? 'M3 17l6-6 4 4 8-10M15 5h6v6' : 'M3 7l6 6 4-4 8 10M15 19h6v-6'}"/></svg>`;
+document.querySelectorAll('.dashboard > .tile').forEach((tile, index) => {
+  const data = insights[[...tile.classList].find(name => insights[name])];
+  if (!data) return;
+  const previous = data.values.at(-2), current = data.values.at(-1);
+  const up = current >= previous;
+  const change = Math.abs((current - previous) / previous * 100).toFixed(1).replace(/\.0$/, '');
+  const trendText = `${up ? '↑' : '↓'} ${change}%`;
+  const accessibleTrend = `${up ? 'Up' : 'Down'} ${change}% compared with last month`;
+  const trend = `<span class="trend ${up ? 'trend-up' : 'trend-down'}" aria-label="${accessibleTrend}">${trendIcon(up)}<span>${change}% ${up ? 'increase' : 'decrease'}</span></span>`;
+  const background = getComputedStyle(tile).backgroundColor;
+  tile.classList.add('flip-tile');
+  tile.style.setProperty('--back-color',data.color);
+  tile.style.setProperty('--front-ink',data.light ? '#141B29' : '#fff');
+  tile.setAttribute('role','group');
+  tile.setAttribute('aria-label',data.title);
+  const board = document.createElement('div');
+  board.className = 'flip-board';
+  const front = document.createElement('div');
+  front.className = 'tile-face tile-front';
+  front.style.background = background;
+  while(tile.firstChild) front.append(tile.firstChild);
+  // The original corner arrows become a real, keyboard-accessible flip control.
+  front.querySelectorAll('.tile-arrow-btn').forEach(arrow => arrow.remove());
+  if (data.front) {
+    const metric=document.createElement('div');
+    metric.className='tile-metric';
+    metric.innerHTML=`<strong>${data.value}</strong><small>miles</small><span class="trend" aria-label="${accessibleTrend}">${trendIcon(up)}${trendText} this month</span>`;
+    front.append(metric);
+  }
+  const low=Math.min(...data.values), high=Math.max(...data.values);
+  const points=data.values.map((value,i)=>`${i*60},${56-(value-low)/(high-low || 1)*48}`).join(' ');
+  const back=document.createElement('div');
+  back.className='tile-face tile-back';
+  back.id=`tile-insight-${index}`;
+  back.innerHTML=`<div><div class="insight-kicker">Monthly insight</div><h2 class="insight-title">${data.title}</h2></div>
+    <div><div class="insight-value">${data.value}<div class="insight-unit">${data.unit}</div></div>${trend}<div class="trend-context">Compared with last month</div>
+    <svg class="trend-chart" viewBox="0 0 300 64" preserveAspectRatio="none" role="img" aria-label="Six monthly values, May through October: ${data.values.join(', ')}"><path d="M0 63H300" stroke="currentColor" opacity=".15"/><polyline points="${points}" fill="none" stroke="${up ? '#BDEACB' : '#FFD0AF'}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"/></svg><div class="chart-labels"><span>May</span><span>Oct</span></div></div>
+    <p class="insight-explanation">${data.explanation}</p><div class="insight-footer"><span>Sample data · Oct 2026</span><span>↻ Flip to return</span></div>`;
+  board.append(front,back);
+  const toggle=document.createElement('button');
+  toggle.type='button';
+  toggle.className=`flip-toggle${data.light ? ' is-light' : ''}`;
+  toggle.setAttribute('aria-controls',back.id);
+  toggle.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M20 7v5h-5M4 17v-5h5"/><path d="M6.1 7a7 7 0 0 1 11.6-1L20 9M4 15l2.3 3A7 7 0 0 0 18 17"/></svg>';
+  tile.append(board,toggle);
+  let hovered=false, pinned=false;
+  function render(){
+    const flipped=hovered || pinned;
+    tile.classList.toggle('is-flipped',flipped);
+    toggle.setAttribute('aria-expanded',String(flipped));
+    toggle.setAttribute('aria-label',`${flipped ? 'Hide' : 'Show'} ${data.title.toLowerCase()} insights`);
+    front.inert=flipped;
+    back.inert=!flipped;
+    front.setAttribute('aria-hidden',String(flipped));
+    back.setAttribute('aria-hidden',String(!flipped));
+  }
+  tile.addEventListener('pointerenter',event=>{
+    if(event.pointerType==='mouse' && matchMedia('(hover:hover)').matches && !front.contains(document.activeElement)){hovered=true;render();}
+  });
+  tile.addEventListener('pointerleave',()=>{hovered=false;render();});
+  tile.addEventListener('click',event=>{
+    if(event.target.closest('a,button') && !toggle.contains(event.target)) return;
+    pinned=!pinned;
+    hovered=false;
+    render();
+  });
+  tile.addEventListener('keydown',event=>{
+    if(event.key==='Escape'){hovered=false;pinned=false;render();toggle.focus();event.stopPropagation();}
+  });
+  tile.addEventListener('focusout',event=>{
+    if(!tile.contains(event.relatedTarget)){pinned=false;render();}
+  });
+  render();
+});
+
+// Destination inspiration uses local copies of web-sourced photos; no hover behavior.
+const destinationTile = document.querySelector('.tile-upcoming');
+const destinationSlides = [...destinationTile.querySelectorAll('.destination-slide')];
+const destinationDots = [...destinationTile.querySelectorAll('.destination-dot')];
+const destinationPause = destinationTile.querySelector('.destination-pause');
+const destinationMotion = matchMedia('(prefers-reduced-motion: reduce)');
+let destinationIndex = 0;
+let destinationPaused = destinationMotion.matches;
+let destinationTimer;
+function renderDestinationPlayback() {
+  clearInterval(destinationTimer);
+  destinationPause.setAttribute('aria-label', `${destinationPaused ? 'Play' : 'Pause'} destination slideshow`);
+  destinationPause.innerHTML = destinationPaused
+    ? '<svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M5 3l8 5-8 5z"/></svg>'
+    : '<svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M4 3h3v10H4zm5 0h3v10H9z"/></svg>';
+  if (destinationPaused || document.hidden) return;
+  destinationTimer = setInterval(() => {
+    const next = (destinationIndex + 1) % destinationSlides.length;
+    const image = destinationSlides[next].querySelector('img');
+    if (!image.complete || !image.naturalWidth) return;
+    destinationIndex = next;
+    destinationSlides.forEach((slide, index) => {
+      slide.classList.toggle('is-active', index === destinationIndex);
+      slide.setAttribute('aria-hidden', String(index !== destinationIndex));
+      destinationDots[index].classList.toggle('is-active', index === destinationIndex);
+    });
+  }, 5500);
+}
+destinationPause.addEventListener('click', () => {
+  destinationPaused = !destinationPaused;
+  renderDestinationPlayback();
+});
+destinationMotion.addEventListener('change', event => {
+  destinationPaused = event.matches;
+  renderDestinationPlayback();
+});
+document.addEventListener('visibilitychange', renderDestinationPlayback);
+renderDestinationPlayback();
+
+const paletteToggle = document.querySelector('#palette-toggle');
+function applyPalette(blue) {
+  document.body.dataset.palette = blue ? 'blue' : 'original';
+  paletteToggle?.setAttribute('aria-checked', String(blue));
+}
+try { applyPalette(localStorage.getItem('optivoy-blue-tiles') === 'true'); }
+catch { applyPalette(false); }
+paletteToggle?.addEventListener('click', () => {
+  const blue = paletteToggle.getAttribute('aria-checked') !== 'true';
+  applyPalette(blue);
+  try { localStorage.setItem('optivoy-blue-tiles', String(blue)); } catch {}
+});
+</script>
+
+<script src="dashboard-tiles.js"></script>
+</body>
+</html>

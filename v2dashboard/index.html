@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <base href="../">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#F5F5F5">
+  <meta name="description" content="Your points co dashboard. Track rewards, booking activity, hotel earnings, and travel spending.">
+  <title>points co — Dashboard v2 (archive)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Material+Symbols+Outlined:wght@400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="v2dashboard/dashboard-v2.css">
+  <script src="v2dashboard/dashboard-tiles.js" defer></script>
+  <script src="v2dashboard/dashboard-v2.js" defer></script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to tiles</a>
+<header class="appbar">
+  <a class="brand" href="index.html" aria-label="points co home"><span class="material-symbols-outlined" aria-hidden="true">travel_explore</span><span>points co</span></a>
+  <form class="search" id="search-form" role="search">
+    <button type="button" class="icon-button mobile-search-button" id="mobile-search-button" aria-label="Search points co"><span class="material-symbols-outlined" aria-hidden="true">search</span></button>
+    <label class="sr-only" for="dashboard-search">Search points co</label>
+    <span class="search-icon"><span class="material-symbols-outlined" aria-hidden="true">search</span></span><input id="dashboard-search" type="search" placeholder="Search points co" autocomplete="off"><kbd>/</kbd>
+  </form>
+  <div class="appbar-actions">
+    <a class="version-link" href="index.html" aria-label="Open current v3 dashboard">v3</a>
+    <a class="version-link" href="v1dashboard/index.html" aria-label="Open v1 dashboard">v1</a>
+    <button class="icon-button" id="customize-button" aria-label="Customize tiles"><span class="material-symbols-outlined" aria-hidden="true">tune</span></button>
+    <button class="icon-button" id="notification-button" aria-label="Notifications"><span class="material-symbols-outlined" aria-hidden="true">notifications</span></button>
+    <button class="avatar" id="profile-button" aria-label="Anthony’s profile">A</button>
+  </div>
+</header>
+<main id="main" aria-label="points co dashboard">
+<div class="dashboard" data-storage-key="optivoy-material-tiles">
+<section class="tile tile-hero">
+<div class="tile-top"><span class="material-symbols-outlined" aria-hidden="true">wb_sunny</span><span class="tile-label">Your travel, connected</span></div>
+<div class="tile-content welcome-overview"><p class="greeting">Welcome back, Anthony</p><h1>Your travel overview</h1><p class="reporting-period"><span class="material-symbols-outlined" aria-hidden="true">calendar_month</span> October 2026 <span class="sample-label">Sample data</span></p></div>
+</section>
+
+<a class="tile tile-messages" href="optivoy-chat.html">
+<span class="material-symbols-outlined tile-background-icon" aria-hidden="true">flight</span>
+<div class="tile-top"><span class="material-symbols-outlined" aria-hidden="true">auto_awesome</span><span class="tile-arrow" aria-hidden="true"><span class="material-symbols-outlined" aria-hidden="true">arrow_outward</span></span></div>
+<div class="tile-content"><p class="tile-eyebrow">Travel assistant</p><h2 class="tile-name">Let’s plan your trip.</h2><span class="primary-action">Start a conversation <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span></span></div>
+</a>
+
+<section class="tile tile-benefits">
+<div class="tile-top"><span class="material-symbols-outlined" aria-hidden="true">account_balance_wallet</span></div>
+<div class="wallet-cards" role="img" aria-label="Two sample rewards credit cards">
+  <div class="wallet-card wallet-card-secondary"><span class="wallet-card-brand">points co rewards</span><span class="wallet-card-number">•••• 2048</span></div>
+  <div class="wallet-card wallet-card-primary"><span class="wallet-card-brand">points co platinum</span><span class="wallet-card-chip"></span><span class="wallet-card-number">•••• 4821</span><span class="wallet-card-network"><i></i><i></i></span></div>
+</div>
+<div class="tile-metric"><strong>28,400</strong><span>miles available</span><small><span class="material-symbols-outlined" aria-hidden="true">trending_up</span> +2,400 this month</small></div>
+<div class="tile-content"><h2 class="tile-name">Rewards wallet</h2><p class="tile-sub">Miles, loyalty & rewards</p></div>
+</section>
+
+<section class="tile tile-mytrips">
+<div class="tile-top"><span class="material-symbols-outlined" aria-hidden="true">luggage</span></div>
+<div class="tile-metric"><strong>4</strong><span>trips booked this month</span><small><span class="material-symbols-outlined" aria-hidden="true">trending_up</span> One more than last month</small></div>
+<div class="tile-content"><button class="tile-inline-link" data-details="bookings">View bookings <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span></button><h2 class="tile-name">My trips</h2><p class="tile-sub">Bookings & upcoming travel</p></div>
+</section>
+
+<section class="tile tile-hotels">
+<span class="material-symbols-outlined tile-background-icon" aria-hidden="true">hotel</span>
+<div class="tile-top"><span class="material-symbols-outlined" aria-hidden="true">hotel</span></div>
+<div class="tile-metric"><strong>4,400</strong><span>miles earned this month</span><small><span class="material-symbols-outlined" aria-hidden="true">trending_up</span> +400 this month</small></div>
+<div class="tile-content"><a class="tile-inline-link" href="optivoy-chat.html" data-chat-prompt="Help me find and book a hotel stay.">Find a stay <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span></a><h2 class="tile-name">Hotels</h2><p class="tile-sub">Find & book stays</p></div>
+</section>
+
+<section class="tile tile-expenses">
+<div class="tile-top"><span class="material-symbols-outlined" aria-hidden="true">receipt_long</span></div>
+<div class="tile-metric"><strong>$1,240</strong><span>submitted this month</span><small><span class="material-symbols-outlined" aria-hidden="true">trending_down</span> $310 less than last month</small></div>
+<div class="tile-content"><h2 class="tile-name">Expenses</h2><p class="tile-sub">Travel spending overview</p></div>
+</section>
+
+
+
+<a class="tile tile-explore" href="points-co-explore.html">
+<span class="material-symbols-outlined tile-background-icon" aria-hidden="true">explore</span>
+<div class="tile-top"><span class="material-symbols-outlined" aria-hidden="true">explore</span><span class="tile-arrow" aria-hidden="true"><span class="material-symbols-outlined" aria-hidden="true">arrow_outward</span></span></div>
+<div class="tile-content"><span class="tile-eyebrow">A world of possibilities</span><h2 class="tile-name">Explore</h2><p class="tile-sub">Discover what your points can do.</p></div>
+</a>
+
+<section class="tile tile-upcoming" aria-label="Destination inspiration" aria-roledescription="carousel">
+<img id="destination-image" class="tile-photo" src="assets/destinations/japan.jpg" alt="Chureito Pagoda overlooking Mount Fuji in Japan">
+<div class="tile-top photo-top"><span class="photo-label"><span class="material-symbols-outlined" aria-hidden="true">public</span> Somewhere worth going</span><div class="photo-controls"><button class="photo-button" id="destination-prev" aria-label="Previous destination"><span class="material-symbols-outlined" aria-hidden="true">chevron_left</span></button><button class="photo-button" id="destination-next" aria-label="Next destination"><span class="material-symbols-outlined" aria-hidden="true">chevron_right</span></button><button class="photo-button" id="destination-pause" aria-label="Play destination slideshow"><span class="material-symbols-outlined" aria-hidden="true">play_arrow</span></button></div></div>
+<a class="tile-content photo-caption" href="optivoy-chat.html" aria-label="Plan a trip to the featured destination"><div><p class="tile-eyebrow">Your next escape</p><h2 id="destination-title" class="tile-name">Mount Fuji, Japan</h2></div><span class="material-symbols-outlined" aria-hidden="true">arrow_outward</span></a>
+</section>
+
+<a class="tile tile-activities" href="points-co-explore.html">
+<img class="tile-photo" src="assets/movie-theater.png" alt="" loading="lazy">
+<div class="tile-top"><span class="material-symbols-outlined" aria-hidden="true">local_activity</span><span class="tile-arrow" aria-hidden="true"><span class="material-symbols-outlined" aria-hidden="true">arrow_outward</span></span></div>
+<div class="tile-content"><h2 class="tile-name">Experiences</h2><p class="tile-sub">Movies, activities & more.</p></div>
+</a>
+
+</div>
+</main>
+<dialog id="details-dialog" aria-labelledby="dialog-title">
+  <div class="dialog-heading"><h2 id="dialog-title"></h2><button class="icon-button" id="close-dialog" aria-label="Close details"><span class="material-symbols-outlined" aria-hidden="true">close</span></button></div>
+  <div id="dialog-content"></div>
+  <form method="dialog"><button class="secondary-button">Done</button></form>
+</dialog>
+<p class="sr-only" id="status" role="status"></p>
+</body>
+</html>

@@ -1,0 +1,27 @@
+:root {
+  --color-paper: #F5F5F5;
+  --color-surface: #FFFFFF;
+  --color-surface-mid: #EEEEEE;
+  --color-surface-low: #E3E3E3;
+  --color-surface-dark: #292929;
+  --color-ink: #111111;
+  --color-accent: #183153;
+  --color-border: #11111114;
+  --color-border-inverse: #FFFFFF29;
+  --color-hover: #11111108;
+  --color-hover-inverse: #FFFFFF0D;
+  --color-pressed: #11111112;
+  --color-pressed-inverse: #FFFFFF1F;
+  --color-overlay: #11111166;
+  --color-clear: transparent;
+  --font-body: 'Google Sans', 'Inter', 'Roboto', sans-serif;
+  --font-icons: 'Material Symbols Outlined';
+  --space-xs: 8px;
+  --space-sm: 16px;
+  --space-md: 24px;
+  --radius-tile: 16px;
+  --radius-button: 12px;
+  --ease-out: cubic-bezier(.2, 0, 0, 1);
+  --dur-state: 180ms;
+  --shadow-hover: 0 2px 5px #1111110D;
+}
