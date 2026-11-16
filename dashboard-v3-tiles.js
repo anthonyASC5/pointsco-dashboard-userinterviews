@@ -14,7 +14,7 @@
     ['hotels', '.category-hotels', 'Hotels', 'compact'],
     ['shopping', '.category-shopping', 'Shopping', 'compact'],
     ['health', '.health-panel', 'Loyalty health', 'compact'],
-    ['car', '.category-dark', 'Car rental', 'compact'],
+    ['car', '.category-car', 'Car rental', 'compact'],
     ['benefits', '.benefits-panel', 'Benefits & perks', 'bottom'],
     ['activity', '.activity-panel', 'Monthly activity', 'bottom'],
     ['trips', '.trips-panel', 'Trips & inspiration', 'bottom']
