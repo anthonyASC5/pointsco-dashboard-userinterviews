@@ -36,11 +36,16 @@
       <div class="rewards-footer"><span><span class="material-symbols-outlined" aria-hidden="true">hotel</span> Hotel earnings <strong>4,400 <small>this month</small></strong></span><a href="points-management.html#cards" class="text-link"><span class="material-symbols-outlined" aria-hidden="true">credit_card</span> Cards <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span></a></div>
     </section>
 
-    <button class="panel health-panel" data-panel="health" aria-label="Loyalty health score 75 out of 100. View calculation.">
-      <span class="panel-heading"><span class="panel-label"><span class="material-symbols-outlined" aria-hidden="true">health_and_safety</span> Loyalty health</span><span class="material-symbols-outlined small-arrow" aria-hidden="true">arrow_outward</span></span>
-      <span class="health-gauge"><svg viewBox="0 0 180 108" aria-hidden="true"><path class="gauge-track" d="M18 90 A72 72 0 0 1 162 90"/><path class="gauge-progress" d="M18 90 A72 72 0 0 1 162 90" pathLength="100"/></svg><span class="health-score">75<small>/ 100</small></span></span>
-      <span class="health-caption">Room to improve</span><span class="health-detail"><span class="material-symbols-outlined" aria-hidden="true">schedule</span> 2 accounts with expiry alerts</span><span class="health-footnote">Based on sample account expiry status <span class="material-symbols-outlined" aria-hidden="true">info</span></span>
-    </button>
+      <button type="button" class="panel wallet-tile" data-panel="cards" aria-haspopup="dialog" aria-expanded="false" aria-label="Open your wallet and view your cards">
+        <span class="wallet-heading">My wallet</span><span class="material-symbols-outlined category-arrow" aria-hidden="true">open_in_full</span>
+        <span class="wallet-scene" aria-hidden="true"><span class="wallet-object">
+          <span class="wallet-back"></span>
+          <span class="wallet-card wallet-card-back"><span>platinum</span><i></i></span>
+          <span class="wallet-card wallet-card-front"><span>rewards</span><i></i></span>
+          <span class="wallet-body"></span><span class="wallet-pocket"></span><span class="wallet-clasp"></span>
+        </span></span>
+        <span class="wallet-caption">Tap to open your cards</span>
+      </button>
 
     <nav class="category-row" aria-label="Travel and rewards categories">
       <a class="panel category-tile category-analytics category-flights" href="optivoy-chat.html" data-prompt="Help me find flights I can book with my points.">
@@ -61,8 +66,6 @@
           <svg class="category-sparkline" viewBox="0 0 100 30" role="img" aria-label="Sample monthly points earned, May to October 2026: May 2,800, June 3,100, July 2,900, August 3,600, September 4,000, October 4,400."><polyline points="2.0,26.0 21.2,21.9 40.4,24.6 59.6,15.0 78.8,9.5 98.0,4.0"/><circle cx="98" cy="4.0" r="2"/></svg>
         </div>
       </a>
-      <a class="panel category-tile category-dark" href="points-co-explore.html?category=Travel"><span class="material-symbols-outlined category-icon" aria-hidden="true">directions_car</span><div><h2>Car rental</h2><p>Explore travel rewards</p></div><span class="material-symbols-outlined category-arrow" aria-hidden="true">arrow_forward</span><span class="material-symbols-outlined category-decoration" aria-hidden="true">directions_car</span></a>
-      <a class="panel category-tile" href="points-co-explore.html?category=Dining"><span class="material-symbols-outlined category-icon" aria-hidden="true">restaurant</span><div><h2>Dining</h2><p>More from every meal</p></div><span class="material-symbols-outlined category-arrow" aria-hidden="true">arrow_forward</span><span class="material-symbols-outlined category-decoration" aria-hidden="true">restaurant</span></a>
       <a class="panel category-tile category-analytics category-shopping" href="points-co-explore.html?category=Shopping">
         <div class="category-metric-heading"><span class="material-symbols-outlined category-icon" aria-hidden="true">shopping_bag</span><h2>Shopping</h2></div>
         <span class="material-symbols-outlined category-arrow" aria-hidden="true">arrow_forward</span>
@@ -72,6 +75,12 @@
           <svg class="category-sparkline" viewBox="0 0 100 30" role="img" aria-label="Sample monthly points earned, May to October 2026: May 2,400, June 2,100, July 2,300, August 1,900, September 2,000, October 1,800."><polyline points="2.0,4.0 21.2,15.0 40.4,7.7 59.6,22.3 78.8,18.7 98.0,26.0"/><circle cx="98" cy="26.0" r="2"/></svg>
         </div>
       </a>
+    <button class="panel health-panel category-tile" data-panel="health" aria-label="Loyalty health score 75 out of 100. View calculation.">
+      <span class="panel-heading"><span class="panel-label"><span class="material-symbols-outlined" aria-hidden="true">health_and_safety</span> Loyalty health</span><span class="material-symbols-outlined small-arrow" aria-hidden="true">arrow_outward</span></span>
+      <span class="health-gauge"><svg viewBox="0 0 180 108" aria-hidden="true"><path class="gauge-track" d="M18 90 A72 72 0 0 1 162 90"/><path class="gauge-progress" d="M18 90 A72 72 0 0 1 162 90" pathLength="100"/></svg><span class="health-score">75<small>/ 100</small></span></span>
+      <span class="health-caption">Room to improve</span><span class="health-detail"><span class="material-symbols-outlined" aria-hidden="true">schedule</span> 2 accounts with expiry alerts</span><span class="health-footnote">Based on sample account expiry status <span class="material-symbols-outlined" aria-hidden="true">info</span></span>
+    </button>
+      <a class="panel category-tile category-dark" href="points-co-explore.html?category=Travel"><span class="material-symbols-outlined category-icon" aria-hidden="true">directions_car</span><div><h2>Car rental</h2><p>Explore travel rewards</p></div><span class="material-symbols-outlined category-arrow" aria-hidden="true">arrow_forward</span><span class="material-symbols-outlined category-decoration" aria-hidden="true">directions_car</span></a>
     </nav>
 
     <section class="panel benefits-panel" aria-labelledby="benefits-title"><div class="panel-heading"><h2 class="panel-label" id="benefits-title"><span class="material-symbols-outlined" aria-hidden="true">diamond</span> Benefits & perks</h2><button class="icon-button compact" data-panel="benefits" aria-label="View benefits and perks"><span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span></button></div><div class="benefits-grid"><button data-panel="lounge"><span class="material-symbols-outlined" aria-hidden="true">airline_seat_recline_extra</span>Lounge access</button><button data-panel="rates"><span class="material-symbols-outlined" aria-hidden="true">sell</span>Member rates</button><button data-panel="coverage"><span class="material-symbols-outlined" aria-hidden="true">verified_user</span>Travel coverage</button><a href="points-co-explore.html"><span class="material-symbols-outlined" aria-hidden="true">redeem</span>Explore offers</a></div><p class="benefits-note">Explore what your cards could unlock.</p></section>

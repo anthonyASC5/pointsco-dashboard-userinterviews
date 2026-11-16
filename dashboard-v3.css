@@ -84,3 +84,81 @@ dialog{border:1px solid var(--color-rule);border-radius:14px;padding:24px;backgr
 .category-sparkline polyline{fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}
 .category-sparkline circle{fill:currentColor}
 @media(max-width:900px){.category-analytics{min-height:160px}}
+
+/* One entrance per page visit; chart ranges replay their drawing animation. */
+@keyframes dashboard-enter{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+@keyframes analytics-draw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
+@keyframes analytics-fill{from{opacity:0}to{opacity:1}}
+@keyframes health-fill{from{stroke-dasharray:0 100}to{stroke-dasharray:75 100}}
+@media(prefers-reduced-motion:no-preference){
+  body[data-page=dashboard] .page-heading{animation:dashboard-enter 1000ms var(--ease-out) both}
+  .dashboard-board>.panel,.category-row>.panel{animation:dashboard-enter 1200ms var(--ease-out) var(--entrance-delay,0ms) both}
+  .stock-line,.category-sparkline polyline{stroke-dasharray:1;stroke-dashoffset:0;animation:analytics-draw 2400ms var(--ease-out) 450ms backwards}
+  .stock-area,.stock-dot,.category-sparkline circle{animation:analytics-fill 1800ms var(--ease-out) 650ms backwards}
+  .gauge-progress{animation:health-fill 2400ms var(--ease-out) 450ms backwards}
+}
+
+/* The tile takes the silhouette of a wallet, with offset cards above its pocket. */
+:root{
+  --wallet-leather:#233b55;--wallet-leather-dark:#11243b;--wallet-leather-light:#405973;
+  --wallet-card-sage:#b8c9ba;--wallet-card-sage-dark:#8da693;
+  --wallet-card-cream:#ece4d5;--wallet-card-cream-dark:#d6cab6;
+  --wallet-stitch:#ffffff38;--wallet-shadow:#16263a26;--wallet-highlight:#ffffff55;
+  --wallet-ease:cubic-bezier(.2,.7,.2,1);
+}
+.dashboard-board .wallet-tile{position:relative;display:block;text-align:left;background:transparent;border:0;isolation:isolate;min-height:160px;padding:0;overflow:visible;box-shadow:none}
+.wallet-heading{position:absolute;bottom:36px;left:24px;z-index:2;font-size:16px;font-weight:500;letter-spacing:-.3px;color:var(--color-surface);transform:rotate(-3deg)}
+.wallet-caption{position:absolute;bottom:21px;left:25px;z-index:2;text-align:left;font-size:9px;color:var(--color-text-inverse);transform:rotate(-3deg)}
+.wallet-tile .category-arrow{font-size:16px;right:26px;top:auto;bottom:37px;color:var(--color-surface);transform:rotate(-3deg);z-index:2}
+.wallet-scene{position:absolute;display:block;width:100%;height:100%;left:0;top:0;perspective:850px;pointer-events:none}
+.wallet-object{display:block;position:relative;width:100%;height:100%;transform-style:preserve-3d;transform:rotateX(5deg) rotateY(-8deg) rotateZ(-3deg);transition:transform 1100ms var(--wallet-ease)}
+.wallet-object::after{content:"";position:absolute;left:12%;bottom:3px;width:78%;height:12px;border-radius:50%;background:var(--wallet-shadow);filter:blur(6px);transform:translateZ(-12px)}
+.wallet-back,.wallet-body,.wallet-pocket,.wallet-card,.wallet-clasp{position:absolute;display:block}
+.wallet-back{inset:37px 8px 10px 6px;border-radius:9px 20px 17px 12px;background:var(--wallet-leather-dark);transform:translateZ(-9px);box-shadow:2px 3px 0 var(--wallet-leather-dark)}
+.wallet-card{width:70%;height:65%;left:17%;top:17px;border:1px solid var(--wallet-highlight);border-radius:7px;padding:10px;font-size:8px;text-align:left;color:var(--wallet-leather-dark);box-shadow:inset 0 1px 1px var(--wallet-highlight),2px 2px 0 var(--wallet-card-cream-dark);transition:transform 1400ms var(--wallet-ease)}
+.wallet-card span{display:block;font-weight:600;letter-spacing:.8px;text-transform:uppercase}
+.wallet-card i{position:absolute;left:11px;top:29px;width:18px;height:12px;border-radius:3px;border:1px solid currentColor;opacity:.45}
+.wallet-card-back{transform:translate3d(11px,-7px,-5px) rotate(10deg);background:linear-gradient(135deg,var(--wallet-card-sage),var(--wallet-card-sage-dark))}
+.wallet-card-front{transform:translate3d(-8px,5px,-2px) rotate(-9deg);background:linear-gradient(135deg,var(--wallet-card-cream),var(--wallet-card-cream-dark))}
+.wallet-body{inset:53px 8px 10px 6px;border-radius:9px 18px 17px 12px;background:linear-gradient(140deg,var(--wallet-leather-light),var(--wallet-leather));transform:translateZ(2px);box-shadow:inset 0 1px 0 var(--wallet-highlight),2px 4px 0 var(--wallet-leather-dark)}
+.wallet-pocket{inset:64px 8px 10px 6px;border-radius:4px 25px 17px 12px;background:linear-gradient(120deg,var(--wallet-leather),var(--wallet-leather-dark));transform:translateZ(5px);transform-origin:center bottom;transition:transform 1200ms var(--wallet-ease)}
+.wallet-pocket::after{content:"";position:absolute;inset:8px;border:1px dashed var(--wallet-stitch);border-radius:3px 20px 12px 7px}
+.wallet-clasp{width:39px;height:23px;right:1px;top:48%;border-radius:8px 3px 3px 8px;background:var(--wallet-leather-light);box-shadow:0 2px 3px var(--wallet-shadow),inset 0 1px 0 var(--wallet-highlight);transform:translateZ(8px);transform-origin:right center;transition:transform 1200ms var(--wallet-ease)}
+.wallet-clasp::after{content:"";position:absolute;width:7px;height:7px;left:9px;top:8px;border-radius:50%;background:var(--wallet-card-cream);box-shadow:inset 1px 1px 0 var(--wallet-highlight)}
+.wallet-tile:hover .wallet-object{transform:translateY(-3px) rotateX(2deg) rotateY(-5deg) rotateZ(-5deg)}
+.wallet-tile:active .wallet-object{transform:scale(.97) rotateZ(-3deg)}
+.is-open .wallet-object{transform:rotateX(2deg) rotateY(-8deg) rotateZ(-3deg)}
+.is-open .wallet-card-back{transform:translate3d(15px,-23px,-5px) rotate(17deg)}
+.is-open .wallet-card-front{transform:translate3d(-13px,-13px,-2px) rotate(-15deg)}
+.is-open .wallet-pocket{transform:translateZ(5px) rotateX(-22deg)}
+.is-open .wallet-clasp{transform:translateZ(8px) rotateY(-120deg)}
+.wallet-preview{position:relative;height:240px;margin-top:12px;border-radius:12px;background:var(--color-paper);overflow:hidden}
+.wallet-preview .wallet-scene{width:230px;height:155px;left:50%;top:54%;transform:translate(-50%,-50%)}
+.wallet-card-list{display:grid;gap:10px;margin-top:18px}
+.wallet-card-detail{display:flex;align-items:center;gap:14px;padding:12px;border:1px solid var(--color-rule);border-radius:10px}
+.wallet-card-swatch{display:grid;place-items:center;width:58px;height:38px;border-radius:6px;background:var(--color-accent);color:var(--color-surface)}
+.wallet-card-swatch.silver{background:var(--color-card-silver);color:var(--color-accent)}
+.wallet-card-detail strong{display:block;font-size:12px;font-weight:500}
+.wallet-card-detail div>span{display:block;margin-top:4px;font:11px var(--font-mono);color:var(--color-muted)}
+@media(prefers-reduced-motion:reduce){.wallet-object,.wallet-card,.wallet-pocket,.wallet-clasp{transition:none}.wallet-tile:hover .wallet-object,.wallet-tile:active .wallet-object{transform:rotateX(5deg) rotateY(-8deg) rotateZ(-3deg)}}
+
+
+/* Wallet occupies the large overview slot; health fits the category row. */
+.dashboard-board>.wallet-tile{grid-column:span 3;min-height:0}
+.dashboard-board>.wallet-tile .wallet-scene{height:80%;top:12%}
+.dashboard-board>.wallet-tile .wallet-heading{bottom:52px;font-size:20px;left:30px}
+.dashboard-board>.wallet-tile .wallet-caption{bottom:33px;left:31px;font-size:10px}
+.dashboard-board>.wallet-tile .category-arrow{bottom:53px;right:30px;font-size:20px}
+.category-row>.health-panel{grid-column:auto;min-height:160px;padding:14px 16px;justify-content:space-between;gap:4px;background:var(--color-surface-mid)}
+.category-row .health-panel .panel-label{font-size:11px;gap:5px;white-space:nowrap}
+.category-row .health-panel .panel-label>.material-symbols-outlined{font-size:16px}
+.category-row .health-panel .small-arrow{font-size:14px}
+.category-row .health-gauge{flex:0 0 76px;min-height:76px;width:126px;margin:0 auto}
+.category-row .health-score{font-size:29px;bottom:7%;letter-spacing:-1px}
+.category-row .health-score small{font-size:10px}
+.category-row .health-caption{font-size:9px;margin:0}
+.category-row .health-detail{padding-top:5px;font-size:8px;gap:3px}
+.category-row .health-detail>.material-symbols-outlined{font-size:12px}
+.category-row .health-footnote{display:none}
+@media(max-width:900px){.dashboard-board>.wallet-tile{grid-column:span 1;min-height:330px}}
+@media(max-width:540px){.dashboard-board>.wallet-tile{grid-column:1;min-height:300px}.category-row>.health-panel{padding:12px 10px}.category-row .health-panel .panel-label{font-size:10px}.category-row .health-detail{font-size:7px}}

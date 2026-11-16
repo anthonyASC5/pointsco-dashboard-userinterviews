@@ -65,7 +65,7 @@ if (typeof document !== 'undefined') (() => {
     chart.innerHTML = `<svg class="stock-chart" viewBox="0 0 640 180" preserveAspectRatio="none" role="img" tabindex="0" aria-label="Sample rewards balance, 2026. ${historyLabel}. Use left and right arrows to inspect monthly values.">
       ${ticks.map(tick => `<path class="stock-grid" d="M16 ${y(tick)}H560"/><text class="stock-axis" x="635" y="${y(tick)+4}" text-anchor="end">${(tick/1000).toFixed(1)}k</text>`).join('')}
       <polygon class="stock-area" points="16,140 ${points} 560,140"/>
-      <polyline class="stock-line" points="${points}" vector-effect="non-scaling-stroke"/>
+      <polyline class="stock-line" pathLength="1" points="${points}" vector-effect="non-scaling-stroke"/>
       ${values.map((item,index) => `<text class="stock-axis" x="${x(index)}" y="170" text-anchor="${index === 0 ? 'start' : 'middle'}">${item.month}</text>`).join('')}
       <line class="stock-crosshair" x1="560" x2="560" y1="20" y2="143" visibility="hidden"/>
       <circle class="stock-dot" cx="560" cy="${y(values.at(-1).balance)}" r="4"/>
@@ -193,7 +193,14 @@ if (typeof document !== 'undefined') (() => {
     coverage: {title:'Travel coverage', rows:[['Review your card’s coverage','Coverage varies by card and booking conditions. No coverage has been confirmed for the sample cards shown here.']]},
     profile: {title:'Anthony’s workspace', rows:[['points co · Version 3','Your rewards, travel planning, and loyalty health in one workspace.'],['Sample experience','Live accounts, reservations, card benefits, and AI services are not connected.']]}
   };
+  // Normalize the SVG paths so each analytics line draws at the same pace.
+  $$('.category-sparkline polyline').forEach(line => line.setAttribute('pathLength', '1'));
+  $$('.dashboard-board > .panel, .category-row > .panel').forEach((panel, index) => {
+    panel.style.setProperty('--entrance-delay', `${Math.min(index, 8) * 110}ms`);
+  });
+
   const dialog = $('#details-dialog');
+  const walletTrigger = $('.wallet-tile');
   let dialogTrigger;
   function openPanel(name, trigger) {
     dialogTrigger = trigger;
@@ -201,9 +208,16 @@ if (typeof document !== 'undefined') (() => {
     content.replaceChildren();
     if (name === 'cards') {
       $('#dialog-title').textContent = 'Your cards';
+      const wallet = walletTrigger?.querySelector('.wallet-scene').cloneNode(true);
+      if (wallet) {
+        const stage = document.createElement('div');
+        stage.className = 'wallet-preview';
+        stage.append(wallet);
+        content.append(stage);
+      }
       const stack = document.createElement('div');
-      stack.className = 'card-stack';
-      stack.innerHTML = `<div class="payment-card silver"><strong>points co rewards</strong>${icon('credit_card')}<span>•••• 2048</span></div><div class="payment-card navy"><strong>points co platinum</strong>${icon('credit_card')}<span>•••• 4821</span></div>`;
+      stack.className = 'wallet-card-list';
+      stack.innerHTML = `<div class="wallet-card-detail"><span class="wallet-card-swatch silver">${icon('credit_card')}</span><div><strong>points co rewards</strong><span>•••• 2048</span></div></div><div class="wallet-card-detail"><span class="wallet-card-swatch navy">${icon('credit_card')}</span><div><strong>points co platinum</strong><span>•••• 4821</span></div></div>`;
       content.append(stack);
       const note = document.createElement('p'); note.className = 'detail-note';
       note.textContent = 'Illustrative cards from the existing dashboard. No payment account or live card data is connected.';
@@ -222,10 +236,22 @@ if (typeof document !== 'undefined') (() => {
       note.textContent = 'Sample data · October 2026.'; content.append(note);
     }
     dialog.showModal();
+    if (name === 'cards' && walletTrigger) {
+      walletTrigger.setAttribute('aria-expanded', 'true');
+      walletTrigger.classList.add('is-open');
+      // Paint the closed wallet first, then reveal the cards in the dialog.
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        if (dialog.open) content.querySelector('.wallet-preview')?.classList.add('is-open');
+      }));
+    }
   }
   $$('[data-panel]').forEach(button => button.addEventListener('click', () => openPanel(button.dataset.panel, button)));
   $('#close-dialog').addEventListener('click', () => dialog.close());
-  dialog.addEventListener('close', () => dialogTrigger?.focus({preventScroll:true}));
+  dialog.addEventListener('close', () => {
+    walletTrigger?.classList.remove('is-open');
+    walletTrigger?.setAttribute('aria-expanded', 'false');
+    dialogTrigger?.focus({preventScroll:true});
+  });
   dialog.addEventListener('click', event => {
     if (event.target !== dialog) return;
     const bounds = dialog.getBoundingClientRect();
