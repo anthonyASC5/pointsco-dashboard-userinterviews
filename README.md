@@ -22,6 +22,7 @@ Open `http://localhost:8000/`.
 
 ## Version 3
 
+- **Customize tiles** opens the tile editor. Select **Swap** on two tiles to exchange them across rows, **Remove** to hide one, or **Add** to restore it in its slot. **Restore layout** returns to the default v3 arrangement. Changes save in this browser independently of the archived dashboards. Press Escape to cancel a selection or leave editing.
 - An asymmetric three-row desktop layout uses the existing navy and neutral palette. The dashboard scales to the available desktop viewport; mobile uses a readable scrolling layout.
 - The rewards tile opens `points-management.html`. It combines the available rewards balance and monthly hotel earnings without adding the earnings to the balance again.
 - Rewards charts show the existing monthly sample history, with 1M, 3M, and 6M ranges, grid lines, an area chart, pointer inspection, and keyboard arrow inspection.

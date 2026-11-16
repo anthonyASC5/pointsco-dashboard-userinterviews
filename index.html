@@ -7,7 +7,7 @@
   <title>points co — Dashboard v3</title>
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Material+Symbols+Outlined:wght@400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="dashboard-v3.css"><script src="dashboard-v3.js" defer></script>
+  <link rel="stylesheet" href="dashboard-v3.css"><script src="dashboard-v3.js" defer></script><script src="dashboard-v3-tiles.js" defer></script>
 </head>
 <body data-page="dashboard">
 <a class="skip-link" href="#main">Skip to dashboard</a>
@@ -17,7 +17,7 @@
   <div class="appbar-actions"><nav class="version-nav" aria-label="Dashboard versions"><a href="v1dashboard/index.html" aria-label="View version 1">v1</a><a href="v2dashboard/index.html" aria-label="View archived version 2">v2</a><span aria-label="Current version 3">v3</span></nav><button class="icon-button" data-panel="cards" aria-label="Your cards"><span class="material-symbols-outlined" aria-hidden="true">credit_card</span></button><button class="icon-button" data-panel="alerts" aria-label="Notifications: two sample expiry alerts"><span class="material-symbols-outlined" aria-hidden="true">notifications</span><i class="notification-dot"></i></button><button class="avatar" data-panel="profile" aria-label="Anthony’s profile">A</button></div>
 </header>
 <main id="main" class="dashboard-main">
-  <div class="page-heading"><div><p>Welcome back, Anthony</p><h1>Your travel overview</h1></div><p class="reporting-period"><span class="material-symbols-outlined" aria-hidden="true">calendar_month</span> October 2026 <span class="sample-label">Sample data</span></p></div>
+  <div class="page-heading"><div><p>Welcome back, Anthony</p><h1>Your travel overview</h1></div><div class="overview-actions"><button type="button" class="customize-tiles-button" id="customize-tiles" aria-pressed="false" aria-controls="tile-editor"><span class="material-symbols-outlined" aria-hidden="true">tune</span><span>Customize tiles</span></button><p class="reporting-period"><span class="material-symbols-outlined" aria-hidden="true">calendar_month</span> October 2026 <span class="sample-label">Sample data</span></p></div></div>
   <div class="board-frame"><div class="dashboard-board">
     <section class="panel assistant-panel" aria-labelledby="assistant-title">
       <div class="panel-heading"><span class="panel-label"><span class="material-symbols-outlined" aria-hidden="true">auto_awesome</span> Your travel assistant</span><span class="assistant-mark">points co AI</span></div>

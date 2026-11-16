@@ -92,7 +92,7 @@ dialog{border:1px solid var(--color-rule);border-radius:14px;padding:24px;backgr
 @keyframes health-fill{from{stroke-dasharray:0 100}to{stroke-dasharray:75 100}}
 @media(prefers-reduced-motion:no-preference){
   body[data-page=dashboard] .page-heading{animation:dashboard-enter 1000ms var(--ease-out) both}
-  .dashboard-board>.panel,.category-row>.panel{animation:dashboard-enter 1200ms var(--ease-out) var(--entrance-delay,0ms) both}
+  .dashboard-board>.panel,.category-row>.panel,.tile-slot>.panel{animation:dashboard-enter 1200ms var(--ease-out) var(--entrance-delay,0ms) both}
   .stock-line,.category-sparkline polyline{stroke-dasharray:1;stroke-dashoffset:0;animation:analytics-draw 2400ms var(--ease-out) 450ms backwards}
   .stock-area,.stock-dot,.category-sparkline circle{animation:analytics-fill 1800ms var(--ease-out) 650ms backwards}
   .gauge-progress{animation:health-fill 2400ms var(--ease-out) 450ms backwards}
@@ -144,21 +144,126 @@ dialog{border:1px solid var(--color-rule);border-radius:14px;padding:24px;backgr
 
 
 /* Wallet occupies the large overview slot; health fits the category row. */
-.dashboard-board>.wallet-tile{grid-column:span 3;min-height:0}
-.dashboard-board>.wallet-tile .wallet-scene{height:80%;top:12%}
-.dashboard-board>.wallet-tile .wallet-heading{bottom:52px;font-size:20px;left:30px}
-.dashboard-board>.wallet-tile .wallet-caption{bottom:33px;left:31px;font-size:10px}
-.dashboard-board>.wallet-tile .category-arrow{bottom:53px;right:30px;font-size:20px}
-.category-row>.health-panel{grid-column:auto;min-height:160px;padding:14px 16px;justify-content:space-between;gap:4px;background:var(--color-surface-mid)}
-.category-row .health-panel .panel-label{font-size:11px;gap:5px;white-space:nowrap}
-.category-row .health-panel .panel-label>.material-symbols-outlined{font-size:16px}
-.category-row .health-panel .small-arrow{font-size:14px}
-.category-row .health-gauge{flex:0 0 76px;min-height:76px;width:126px;margin:0 auto}
-.category-row .health-score{font-size:29px;bottom:7%;letter-spacing:-1px}
-.category-row .health-score small{font-size:10px}
-.category-row .health-caption{font-size:9px;margin:0}
-.category-row .health-detail{padding-top:5px;font-size:8px;gap:3px}
-.category-row .health-detail>.material-symbols-outlined{font-size:12px}
-.category-row .health-footnote{display:none}
-@media(max-width:900px){.dashboard-board>.wallet-tile{grid-column:span 1;min-height:330px}}
-@media(max-width:540px){.dashboard-board>.wallet-tile{grid-column:1;min-height:300px}.category-row>.health-panel{padding:12px 10px}.category-row .health-panel .panel-label{font-size:10px}.category-row .health-detail{font-size:7px}}
+.tile-slot:not([data-size=compact])>.wallet-tile{grid-column:span 3;min-height:0}
+.tile-slot:not([data-size=compact])>.wallet-tile .wallet-scene{height:80%;top:12%}
+.tile-slot:not([data-size=compact])>.wallet-tile .wallet-heading{bottom:52px;font-size:20px;left:30px}
+.tile-slot:not([data-size=compact])>.wallet-tile .wallet-caption{bottom:33px;left:31px;font-size:10px}
+.tile-slot:not([data-size=compact])>.wallet-tile .category-arrow{bottom:53px;right:30px;font-size:20px}
+.tile-slot[data-size=compact]>.health-panel{grid-column:auto;min-height:160px;padding:14px 16px;justify-content:space-between;gap:4px;background:var(--color-surface-mid)}
+.tile-slot[data-size=compact] .health-panel .panel-label{font-size:11px;gap:5px;white-space:nowrap}
+.tile-slot[data-size=compact] .health-panel .panel-label>.material-symbols-outlined{font-size:16px}
+.tile-slot[data-size=compact] .health-panel .small-arrow{font-size:14px}
+.tile-slot[data-size=compact] .health-gauge{flex:0 0 76px;min-height:76px;width:126px;margin:0 auto}
+.tile-slot[data-size=compact] .health-score{font-size:29px;bottom:7%;letter-spacing:-1px}
+.tile-slot[data-size=compact] .health-score small{font-size:10px}
+.tile-slot[data-size=compact] .health-caption{font-size:9px;margin:0}
+.tile-slot[data-size=compact] .health-detail{padding-top:5px;font-size:8px;gap:3px}
+.tile-slot[data-size=compact] .health-detail>.material-symbols-outlined{font-size:12px}
+.tile-slot[data-size=compact] .health-footnote{display:none}
+@media(max-width:900px){.tile-slot:not([data-size=compact])>.wallet-tile{grid-column:span 1;min-height:330px}}
+@media(max-width:540px){.tile-slot:not([data-size=compact])>.wallet-tile{grid-column:1;min-height:300px}.tile-slot[data-size=compact]>.health-panel{padding:12px 10px}.tile-slot[data-size=compact] .health-panel .panel-label{font-size:10px}.tile-slot[data-size=compact] .health-detail{font-size:7px}}
+
+/* V3 tile editor: each position keeps its dimensions when its content changes. */
+.overview-actions{display:flex;align-items:center;justify-content:flex-end;gap:18px;flex-wrap:wrap}
+.customize-tiles-button{display:inline-flex;align-items:center;gap:6px;padding:7px 10px;border:1px solid var(--color-rule);border-radius:7px;background:var(--color-surface);font-size:11px;white-space:nowrap}
+.customize-tiles-button>.material-symbols-outlined{font-size:17px}
+.customize-tiles-button:hover,.customize-tiles-button[aria-pressed=true]{background:var(--color-navy-soft);border-color:var(--color-navy-mid)}
+.tile-editor{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px 16px;margin-bottom:12px;border:1px solid var(--color-rule);border-radius:10px;background:var(--color-surface);flex-shrink:0}
+.tile-editor strong{font-size:13px;font-weight:500}
+.tile-editor p{font-size:11px;color:var(--color-muted);margin-top:3px}
+.tile-editor-actions{display:flex;gap:8px;flex-shrink:0}
+.tile-reset{border:1px solid var(--color-rule);border-radius:8px;background:var(--color-surface);padding:8px 12px;font-size:11px;white-space:nowrap}
+.tile-reset:hover{background:var(--color-paper)}
+.tile-slot{position:relative;min-width:0;min-height:0;isolation:isolate}
+.tile-slot[data-size=assistant]{grid-column:span 5}
+.tile-slot[data-size=rewards]{grid-column:span 4}
+.tile-slot[data-size=wallet]{grid-column:span 3}
+.tile-slot[data-size=bottom]{grid-column:span 4}
+.tile-slot>.panel{width:100%;height:100%;min-height:0!important;grid-column:auto!important}
+.category-hotels{background:var(--color-navy-soft)}
+.tile-slot>.category-dark{background:var(--color-ink)}
+.tile-slot>.category-shopping{background:var(--color-card-silver)}
+.tile-edit-controls{position:absolute;inset:0;z-index:5;display:flex;align-items:center;justify-content:center;border:1px dashed var(--color-navy-mid);border-radius:12px;background:var(--color-highlight-overlay,#ffffffb8)}
+.tile-swap{padding:10px 14px;border:1px solid var(--color-accent);border-radius:7px;background:var(--color-surface);color:var(--color-accent);font-size:11px;white-space:nowrap}
+.tile-swap:hover{background:var(--color-navy-soft)}
+.tile-remove{position:absolute;right:8px;top:8px;padding:5px 8px;border:1px solid var(--color-rule);border-radius:5px;background:var(--color-surface);font-size:10px}
+.tile-remove:hover{background:var(--color-surface-low)}
+.tile-slot.is-selected .tile-edit-controls{outline:3px solid var(--color-accent);outline-offset:-3px;background:var(--color-chart-fill)}
+.tile-slot.is-selected .tile-swap{background:var(--color-accent);color:var(--color-surface)}
+.tile-add{display:flex;width:100%;height:100%;min-height:120px;align-items:center;justify-content:center;padding:16px;border:1px dashed var(--color-navy-mid);border-radius:12px;background:var(--color-clear);font-size:12px;color:var(--color-accent)}
+.tile-add:hover{background:var(--color-navy-soft)}
+/* Dense slots retain their controls and key information after any cross-row swap. */
+.tile-slot[data-size=compact]>.panel{padding:14px 16px}
+.tile-slot[data-size=compact]>.wallet-tile{padding:0}
+.tile-slot[data-size=compact] .assistant-copy{margin:6px 0}
+.tile-slot[data-size=compact] .assistant-copy h2{font-size:20px;line-height:1.1;letter-spacing:-.5px}
+.tile-slot[data-size=compact] .assistant-copy p,.tile-slot[data-size=compact] .assistant-mark{display:none}
+.tile-slot[data-size=compact] .assistant-panel .panel-label{font-size:9px}
+.tile-slot[data-size=compact] .assistant-form{padding:3px 5px;gap:5px}
+.tile-slot[data-size=compact] .assistant-form>span{display:none}
+.tile-slot[data-size=compact] .assistant-form input{font-size:9px}
+.tile-slot[data-size=compact] .assistant-plane{font-size:150px;right:-25px;top:15px}
+.tile-slot[data-size=compact] .rewards-panel{padding:12px 14px 0}
+.tile-slot[data-size=compact] .rewards-panel .panel-label{font-size:10px;gap:5px}
+.tile-slot[data-size=compact] .rewards-quote{margin:6px 0 0;gap:4px}
+.tile-slot[data-size=compact] .rewards-quote>strong{font-size:25px;letter-spacing:-.8px}
+.tile-slot[data-size=compact] .rewards-quote>strong>span{font-size:8px;margin-top:3px}
+.tile-slot[data-size=compact] .quote-change{font-size:9px}
+.tile-slot[data-size=compact] .quote-change small{display:none}
+.tile-slot[data-size=compact] .rewards-panel .market-chart{height:42px;flex:0 1 42px;margin-top:4px;min-height:30px}
+.tile-slot[data-size=compact] .stock-chart{min-height:30px}
+.tile-slot[data-size=compact] .chart-readout{display:none}
+.tile-slot[data-size=compact] .chart-toolbar{margin:2px 0 0;gap:2px}
+.tile-slot[data-size=compact] .chart-return{font-size:8px}
+.tile-slot[data-size=compact] .chart-return>span{display:none}
+.tile-slot[data-size=compact] .range-controls button{padding:3px 4px;font-size:8px}
+.tile-slot[data-size=compact] .rewards-footer{padding:5px 0;font-size:8px}
+.tile-slot[data-size=compact] .rewards-footer>span{display:none}
+.tile-slot[data-size=compact] .benefits-panel{padding:12px}
+.tile-slot[data-size=compact] .benefits-panel .panel-label,.tile-slot[data-size=compact] .activity-panel .panel-label{font-size:10px;gap:5px}
+.tile-slot[data-size=compact] .benefits-grid{grid-template-columns:repeat(2,minmax(0,1fr));margin:8px 0 0;gap:5px}
+.tile-slot[data-size=compact] .benefits-grid>a,.tile-slot[data-size=compact] .benefits-grid>button{padding:5px;font-size:8px;gap:4px;flex-direction:row}
+.tile-slot[data-size=compact] .benefits-grid .material-symbols-outlined{font-size:15px}
+.tile-slot[data-size=compact] .benefits-note{display:none}
+.tile-slot[data-size=compact] .activity-panel{padding:12px}
+.tile-slot[data-size=compact] .activity-list{margin-top:3px}
+.tile-slot[data-size=compact] .activity-list>a,.tile-slot[data-size=compact] .activity-list>button{padding:4px 0;gap:5px}
+.tile-slot[data-size=compact] .activity-icon{width:22px;height:22px}
+.tile-slot[data-size=compact] .activity-list>a>span:nth-child(2),.tile-slot[data-size=compact] .activity-list>button>span:nth-child(2){font-size:9px}
+.tile-slot[data-size=compact] .activity-list small{display:none}
+.tile-slot[data-size=compact] .activity-list strong{font-size:10px}
+.tile-slot[data-size=compact] .trips-panel{padding:12px}
+.tile-slot[data-size=compact] .trips-panel .panel-label{font-size:9px;gap:4px}
+.tile-slot[data-size=compact] .trips-panel .panel-label>.material-symbols-outlined{display:none}
+.tile-slot[data-size=compact] .trip-actions{gap:0}
+.tile-slot[data-size=compact] .trips-panel .destination-link{padding:38px 12px 40px}
+.tile-slot[data-size=compact] .trips-panel .destination-copy strong{font-size:16px}
+.tile-slot[data-size=compact] .destination-copy small,.tile-slot[data-size=compact] .destination-copy>span{display:none}
+.tile-slot[data-size=compact] .trips-panel .panel-footer{font-size:8px;padding-top:5px;gap:2px}
+.tile-slot[data-size=compact] .trips-panel .panel-footer small{display:none}
+.tile-slot[data-size=compact] .destination-controls button{width:16px;height:24px}
+@media(max-width:900px){
+  .tile-slot[data-size=assistant]{grid-column:1/-1;min-height:280px}
+  .tile-slot[data-size=rewards],.tile-slot[data-size=wallet]{grid-column:span 1;min-height:330px}
+  .tile-slot[data-size=bottom]{grid-column:span 1;min-height:260px}
+  .tile-slot[data-size=bottom]:has(.benefits-panel){grid-column:1/-1;min-height:220px}
+  .category-row>.tile-slot{min-height:160px}
+  .category-row>.tile-slot:last-child{grid-column:span 2}
+}
+@media(max-width:540px){
+  .overview-actions{justify-content:flex-start;gap:10px}
+  .customize-tiles-button{font-size:10px}
+  .tile-editor{align-items:flex-start;flex-direction:column;gap:10px}
+  .tile-editor-actions{width:100%;justify-content:flex-end}
+  .tile-slot[data-size=assistant],.tile-slot[data-size=rewards],.tile-slot[data-size=wallet],.tile-slot[data-size=bottom]{grid-column:1}
+  .tile-slot[data-size=assistant]{min-height:290px}
+  .tile-slot[data-size=rewards]{min-height:360px}
+  .tile-slot[data-size=wallet]{min-height:300px}
+  .category-row>.tile-slot:last-child{grid-column:1/-1}
+  .tile-slot[data-size=compact]>.panel{padding:12px 10px}
+  .tile-slot[data-size=compact]>.wallet-tile{padding:0}
+  .tile-slot[data-size=compact] .wallet-heading{font-size:14px;left:18px}
+  .tile-slot[data-size=compact] .wallet-caption{font-size:8px;left:19px}
+  .tile-slot[data-size=compact] .wallet-tile .category-arrow{right:18px;font-size:14px}
+  .tile-slot[data-size=compact] .benefits-grid>a,.tile-slot[data-size=compact] .benefits-grid>button{font-size:7px}
+}
