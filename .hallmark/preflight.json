@@ -1,0 +1,19 @@
+{
+  "date": "2026-11-19",
+  "scope": "dashboard",
+  "framework": "Vanilla HTML/CSS/JavaScript",
+  "fonts": {
+    "body": "Inter",
+    "mono": "SFMono-Regular, Consolas",
+    "icons": "Material Symbols Outlined"
+  },
+  "palette": "Existing points co navy and neutral custom properties",
+  "motion": "CSS chart drawing, wallet transitions, destination slideshow; reduced motion respected",
+  "spacing": "Existing pixel spacing, expanded 16/20/24/32px dashboard rhythm",
+  "sources": [
+    "tokens.css",
+    "dashboard-v3.css",
+    "index.html",
+    "dashboard-v3.js"
+  ]
+}

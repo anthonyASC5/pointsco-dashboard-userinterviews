@@ -35,7 +35,7 @@ if (typeof document !== 'undefined') (() => {
   const icon = name => `<span class="material-symbols-outlined" aria-hidden="true">${name}</span>`;
   const board = $('.dashboard-board');
   const frame = $('.board-frame');
-  if (board && frame) {
+  if (board && frame && !board.classList.contains('is-spacious')) {
     const fitBoard = () => {
       if (!matchMedia('(min-width:901px)').matches) {
         ['--board-scale','--board-width','--board-height'].forEach(name => board.style.removeProperty(name));
@@ -178,21 +178,39 @@ if (typeof document !== 'undefined') (() => {
     startChat(link.dataset.prompt);
   }));
 
+  const sample = DashboardSample;
+  const alerts = sample.accounts.filter(account => account.expires);
   const panels = {
+    rewards: {title:'October rewards activity', rows:[
+      ['28,400 miles available', 'September closing balance: 26,000. October category earnings: 14,400. Sample redemptions: 12,000. Net change: +2,400 miles (+9.2%).'],
+      ['How this scenario works', 'For this interview, category points convert 1:1 to the displayed miles. The 14,400 earned miles are already included in the closing balance. No cash value is assigned.']
+    ], ledger:[['September closing balance','26,000 miles'],['Flight earnings','+8,200'],['Hotel earnings','+4,400'],['Shopping earnings','+1,800'],['Sample redemptions','−12,000'],['October closing balance','28,400 miles']], action:'Open points management', href:'points-management.html'},
     health: {title:'Your loyalty health score', rows:[
-      ['75 / 100 · Expiry health', '6 of 8 sample loyalty accounts have no expiry alert. The score is (accounts without an expiry alert ÷ total accounts) × 100.'],
-      ['2 accounts need attention', 'The existing sample account summary contains two expiry alerts. Individual program names and expiration dates are not connected.'],
-      ['What this score measures', 'This prototype measures expiry status only. Redemption value, account sync freshness, and elite status are not included.']
+      ['75 / 100 · Expiry health', '6 of 8 sample accounts have no expiry alert. Calculation: 6 ÷ 8 × 100 = 75. This score measures expiry status only.'],
+      ['3,000 miles need attention', 'Market Club: 1,800 miles expire November 30, 2026. Vista Rewards: 1,200 miles expire December 15, 2026. The alerts are part of the fixed October interview scenario.'],
+      ['Suggested next step', 'Review the two programs before deciding whether to redeem or earn qualifying activity. This prototype does not extend expiry or submit a redemption.']
+    ], ledger:sample.accounts.map(account => [account.name, `${format(account.balance)} miles · ${account.expires ? 'Expires '+account.expires : 'No expiry alert'}`])},
+    alerts: {title:'Accounts that need attention', rows:[
+      ['2 expiry alerts · 3,000 miles', 'These alerts use the same accounts and balances as your loyalty health score.'],
+      ...alerts.map(account => [account.name, `${format(account.balance)} miles expire ${account.expires}. Review your redemption options in this sample scenario.`]),
+      ['Before you act', 'Programs and expiry rules here are fictional. No redemption, transfer, or account change will occur.']
     ]},
-    alerts: {title:'Accounts that need attention', rows:[['2 sample expiry alerts','Two of eight sample loyalty accounts have an upcoming expiry alert. Connect real account data to see the programs, balances at risk, and dates.']]},
-    bookings: {title:'Your bookings', rows:[['4 trips booked in October','One more than September. The existing sample total includes confirmed flight and hotel bookings.'],['Upcoming reservations','Live destinations, travel dates, and confirmation numbers are not connected. Use the travel assistant to plan your next trip.']]},
-    expenses: {title:'Travel expenses', rows:[['$1,240 submitted in October','Down $310, or 20%, from September. Lower accommodation costs drove the decrease.'],['Six-month history','May $1,980 · June $1,820 · July $2,050 · August $1,690 · September $1,550 · October $1,240.']]},
-    benefits: {title:'Benefits & perks', rows:[['Explore your card benefits','Lounge access, member rates, and travel coverage depend on your actual cards and loyalty programs.'],['Check eligibility','The cards shown in this prototype are samples. No benefit eligibility has been verified.']]},
-    lounge: {title:'Lounge access', rows:[['Check your eligible cards','Access depends on your card, membership, airport, and itinerary. Actual memberships and lounge access are not connected.']]},
-    rates: {title:'Member rates', rows:[['Find your member benefits','Eligible loyalty programs may offer member rates. Connect your account to check actual eligibility and availability.']]},
-    coverage: {title:'Travel coverage', rows:[['Review your card’s coverage','Coverage varies by card and booking conditions. No coverage has been confirmed for the sample cards shown here.']]},
-    profile: {title:'Anthony’s workspace', rows:[['points co · Version 3','Your rewards, travel planning, and loyalty health in one workspace.'],['Sample experience','Live accounts, reservations, card benefits, and AI services are not connected.']]}
+    bookings: {title:'Your bookings', rows:[['4 trips booked in October', 'One more than September. These are fictional upcoming trips as of October 31, 2026. Booking dates are in October; travel dates are shown below.'], ...sample.trips.map(([city,dates,detail]) => [city+' · '+dates, detail])]},
+    expenses: {title:'Travel expenses', rows:[['$1,240 submitted in October', 'Four sample expense categories total $1,240. September submissions were $1,550: a decrease of $310 (20%). These are submitted amounts, not confirmed reimbursements.'],['Six-month history', 'May $1,980 · June $1,820 · July $2,050 · August $1,690 · September $1,550 · October $1,240.']], ledger:sample.expenses.map(([date,label,amount]) => [date+' · '+label, '$'+format(amount)])},
+    benefits: {title:'Benefits & perks', rows:[['Rewards · ending 2048', 'Sample earning rates: 3 points per $1 on hotel stays, 2 on shopping, and 1 on other eligible purchases. Includes sample member hotel rates.'],['Platinum · ending 4821', 'Sample earning rates: 3 points per $1 on flights, 2 on dining, and 1 on other eligible purchases. Includes two annual lounge visits, with one remaining in this scenario.'],['Using these benefits', 'These fictional card plans support interview tasks. They do not represent an offer or verify real-world eligibility.']]},
+    lounge: {title:'Lounge access', rows:[['Platinum · 1 sample visit remaining', 'The fictional plan includes two lounge visits per calendar year. One visit was used on September 18, 2026.'],['Sample visit conditions', 'The primary cardholder can use the remaining visit before December 31, 2026. Guests are not included in this scenario.'],['Planning your visit', 'Bring a same-day boarding pass and review the lounge’s entry conditions. No live lounge directory or access verification is connected.']]},
+    rates: {title:'Member rates', rows:[['Rewards · sample hotel benefit', 'Harbor Stays and City Stays offer a fictional member-rate option in this interview scenario.'],['Example comparison · Boston, 3 nights', 'Standard rate: $260 per night. Sample member rate: $240 per night. The difference is $60 across three nights, before taxes and fees.'],['Before booking', 'This is a rate-comparison example, not live availability or a guaranteed discount. No booking is submitted.']]},
+    coverage: {title:'Travel coverage', rows:[['Platinum · sample plan', 'For this interview, eligible trips paid in full with the sample card include a fictional baggage-delay benefit.'],['Example benefit limits', 'After a delay of at least six hours, the sample plan covers eligible essentials up to $100 per day for a maximum of three days. Receipts are required in the scenario.'],['What happens next', 'Use the example to discuss how you would find conditions or start a claim. Real insurance terms, eligibility checks, and claim submission are not connected.']]},
+    car: {title:'Car rental', rows:[['Compare a sample Boston rental', 'November 12–15, 2026 · Airport pickup · Compact car · 3 rental days.'],['Example cash total', '$54 per day × 3 = $162 base rental. Illustrative taxes and fees: $38. Total: $200, excluding optional extras.'],['Rewards and coverage', 'Road Club has 1,600 sample miles. Redemption pricing and rental coverage are not connected; no points price or coverage eligibility is assumed.']], action:'Explore travel', href:'points-co-explore.html?category=Travel'},
+    profile: {title:'Anthony’s workspace', rows:[['Anthony Morgan · Interview persona', 'A fictional traveler based in New York, comparing rewards and planning several upcoming trips.'],['Your sample workspace', '8 loyalty accounts, 2 wallet cards, and 4 trips booked in October. The balance is 28,400 miles, with 3,000 miles under expiry alerts.'],['Scenario date', 'All data is fixed as of October 31, 2026 so interview participants see the same scenario. No live accounts or bookings are connected.']]}
   };
+  Object.entries(sample.categories).forEach(([key, category]) => {
+    const difference = category.total - category.previous;
+    panels[key] = {title:category.title, rows:[
+      [`${format(category.total)} ${category.unit} earned in October`, `${difference > 0 ? 'Up' : 'Down'} ${format(Math.abs(difference))} from ${format(category.previous)} in September (${(Math.abs(difference) / category.previous * 100).toFixed(1)}%). The entries below add up to the tile total.`],
+      ['About these earnings', 'These are posting dates and fictional activity descriptions, not a record of completed travel. Earnings are already included in your rewards balance; the interview scenario converts category points to miles 1:1.']
+    ], ledger:category.transactions.map(([date,label,amount]) => [date+' · '+label, '+'+format(amount)+' '+category.unit]), action:category.action, href:category.href, prompt:category.prompt};
+  });
   // Normalize the SVG paths so each analytics line draws at the same pace.
   $$('.category-sparkline polyline').forEach(line => line.setAttribute('pathLength', '1'));
   $$('.dashboard-board > .panel, .category-row > .panel').forEach((panel, index) => {
@@ -208,19 +226,58 @@ if (typeof document !== 'undefined') (() => {
     content.replaceChildren();
     if (name === 'cards') {
       $('#dialog-title').textContent = 'Your cards';
-      const wallet = walletTrigger?.querySelector('.wallet-scene').cloneNode(true);
-      if (wallet) {
-        const stage = document.createElement('div');
-        stage.className = 'wallet-preview';
-        stage.append(wallet);
-        content.append(stage);
-      }
-      const stack = document.createElement('div');
-      stack.className = 'wallet-card-list';
-      stack.innerHTML = `<div class="wallet-card-detail"><span class="wallet-card-swatch silver">${icon('credit_card')}</span><div><strong>points co rewards</strong><span>•••• 2048</span></div></div><div class="wallet-card-detail"><span class="wallet-card-swatch navy">${icon('credit_card')}</span><div><strong>points co platinum</strong><span>•••• 4821</span></div></div>`;
-      content.append(stack);
+      const cards = sample.cards;
+      const carousel = document.createElement('section');
+      carousel.className = 'wallet-carousel';
+      carousel.setAttribute('aria-label', 'Your wallet cards');
+      carousel.setAttribute('aria-roledescription', 'carousel');
+      carousel.innerHTML = `<p class="wallet-scroll-hint" id="wallet-scroll-hint">Swipe or scroll to browse your cards.</p>
+        <div class="wallet-card-track" tabindex="0" role="group" aria-label="Cards" aria-describedby="wallet-scroll-hint">
+          ${cards.map((card, index) => `<article class="wallet-slide" role="group" aria-roledescription="slide" aria-label="${index + 1} of ${cards.length}: points co ${card.name}">
+            <div class="wallet-full-card ${card.tone}"><span class="wallet-card-brand">points co</span><h3>${card.name}</h3><span class="wallet-card-chip" aria-hidden="true"></span><span class="wallet-card-number"><span class="sr-only">Card ending in </span>•••• ${card.number}</span>${icon('contactless')}</div>
+          </article>`).join('')}
+        </div>
+        <div class="wallet-carousel-controls"><button type="button" class="wallet-page-button" data-direction="-1" aria-label="Previous card">${icon('chevron_left')}</button><span class="wallet-card-position" role="status" aria-live="polite" aria-atomic="true">1 of ${cards.length}</span><button type="button" class="wallet-page-button" data-direction="1" aria-label="Next card">${icon('chevron_right')}</button></div>`;
+      content.append(carousel);
+      const cardDetails = document.createElement('section');
+      cardDetails.className = 'wallet-card-information';
+      cardDetails.setAttribute('aria-label', 'Selected card details');
+      content.append(cardDetails);
+      const renderCardDetails = index => {
+        const card = cards[index];
+        cardDetails.innerHTML = `<h3>points co ${card.name} · •••• ${card.number}</h3><dl><div><dt>October earnings</dt><dd>${format(card.earned)} points</dd></div><div><dt>Earning rates</dt><dd>${card.rates}</dd></div><div><dt>Sample activity</dt><dd>${card.activity} points</dd></div><div><dt>Included benefit</dt><dd>${card.perk}</dd></div></dl>`;
+      };
+      renderCardDetails(0);
+      const track = carousel.querySelector('.wallet-card-track');
+      const slides = [...track.children];
+      const previous = carousel.querySelector('[data-direction="-1"]');
+      const next = carousel.querySelector('[data-direction="1"]');
+      let current = 0;
+      const update = () => {
+        const previousIndex = current;
+        current = slides.reduce((closest, slide, index) =>
+          Math.abs(slide.offsetLeft - slides[0].offsetLeft - track.scrollLeft) < Math.abs(slides[closest].offsetLeft - slides[0].offsetLeft - track.scrollLeft) ? index : closest, 0);
+        if (previousIndex !== current) renderCardDetails(current);
+        carousel.querySelector('.wallet-card-position').textContent = `${current + 1} of ${cards.length}`;
+        previous.disabled = current === 0;
+        next.disabled = current === cards.length - 1;
+      };
+      const goTo = index => {
+        const target = slides[Math.max(0, Math.min(index, cards.length - 1))];
+        track.scrollTo({left:target.offsetLeft - slides[0].offsetLeft, behavior:matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth'});
+      };
+      previous.addEventListener('click', () => goTo(current - 1));
+      next.addEventListener('click', () => goTo(current + 1));
+      track.addEventListener('scroll', update, {passive:true});
+      track.addEventListener('keydown', event => {
+        const target = {ArrowLeft:current - 1, ArrowRight:current + 1, Home:0, End:cards.length - 1}[event.key];
+        if (target === undefined) return;
+        event.preventDefault();
+        goTo(target);
+      });
+      previous.disabled = true;
       const note = document.createElement('p'); note.className = 'detail-note';
-      note.textContent = 'Illustrative cards from the existing dashboard. No payment account or live card data is connected.';
+      note.textContent = 'Fictional card plans · Sample data as of '+sample.asOf+'. Earnings are included in the dashboard totals. No live card account or benefit verification is connected.';
       content.append(note);
     } else {
       const panel = panels[name];
@@ -232,20 +289,40 @@ if (typeof document !== 'undefined') (() => {
         const copy = document.createElement('p'); copy.textContent = text;
         row.append(heading,copy); content.append(row);
       });
+      if (panel.ledger) {
+        const ledger = document.createElement('dl');
+        ledger.className = 'sample-ledger';
+        panel.ledger.forEach(([label, value]) => {
+          const row = document.createElement('div');
+          const term = document.createElement('dt'); term.textContent = label;
+          const detail = document.createElement('dd'); detail.textContent = value;
+          row.append(term, detail); ledger.append(row);
+        });
+        content.append(ledger);
+      }
+      if (panel.action) {
+        const action = document.createElement('a'); action.className = 'solid-button';
+        action.href = panel.href; action.textContent = panel.action;
+        if (panel.prompt) action.addEventListener('click', event => {
+          if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+          event.preventDefault(); startChat(panel.prompt);
+        });
+        content.append(action);
+      }
       const note = document.createElement('p'); note.className = 'detail-note';
-      note.textContent = 'Sample data · October 2026.'; content.append(note);
+      note.textContent = 'Interview sample · As of '+sample.asOf+'. Programs, activity, rates, and benefit terms are fictional. No live account actions are performed.'; content.append(note);
     }
     dialog.showModal();
     if (name === 'cards' && walletTrigger) {
       walletTrigger.setAttribute('aria-expanded', 'true');
       walletTrigger.classList.add('is-open');
-      // Paint the closed wallet first, then reveal the cards in the dialog.
-      requestAnimationFrame(() => requestAnimationFrame(() => {
-        if (dialog.open) content.querySelector('.wallet-preview')?.classList.add('is-open');
-      }));
     }
   }
-  $$('[data-panel]').forEach(button => button.addEventListener('click', () => openPanel(button.dataset.panel, button)));
+  $$('[data-panel]').forEach(button => button.addEventListener('click', event => {
+    if (button.tagName === 'A' && (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey)) return;
+    event.preventDefault();
+    openPanel(button.dataset.panel, button);
+  }));
   $('#close-dialog').addEventListener('click', () => dialog.close());
   dialog.addEventListener('close', () => {
     walletTrigger?.classList.remove('is-open');

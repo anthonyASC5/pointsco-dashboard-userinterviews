@@ -132,14 +132,23 @@ dialog{border:1px solid var(--color-rule);border-radius:14px;padding:24px;backgr
 .is-open .wallet-card-front{transform:translate3d(-13px,-13px,-2px) rotate(-15deg)}
 .is-open .wallet-pocket{transform:translateZ(5px) rotateX(-22deg)}
 .is-open .wallet-clasp{transform:translateZ(8px) rotateY(-120deg)}
-.wallet-preview{position:relative;height:240px;margin-top:12px;border-radius:12px;background:var(--color-paper);overflow:hidden}
-.wallet-preview .wallet-scene{width:230px;height:155px;left:50%;top:54%;transform:translate(-50%,-50%)}
-.wallet-card-list{display:grid;gap:10px;margin-top:18px}
-.wallet-card-detail{display:flex;align-items:center;gap:14px;padding:12px;border:1px solid var(--color-rule);border-radius:10px}
-.wallet-card-swatch{display:grid;place-items:center;width:58px;height:38px;border-radius:6px;background:var(--color-accent);color:var(--color-surface)}
-.wallet-card-swatch.silver{background:var(--color-card-silver);color:var(--color-accent)}
-.wallet-card-detail strong{display:block;font-size:12px;font-weight:500}
-.wallet-card-detail div>span{display:block;margin-top:4px;font:11px var(--font-mono);color:var(--color-muted)}
+.wallet-scroll-hint{font-size:14px;line-height:1.5;color:var(--color-muted);margin-bottom:16px}
+.wallet-card-track{position:relative;display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;overscroll-behavior-x:contain;border-radius:14px;scrollbar-width:thin;scrollbar-color:var(--color-navy-mid) transparent;padding-bottom:12px}
+.wallet-slide{flex:0 0 100%;min-width:0;scroll-snap-align:start;scroll-snap-stop:always;padding:4px}
+.wallet-full-card{position:relative;aspect-ratio:1.586;border-radius:16px;padding:24px;overflow:hidden;color:var(--wallet-leather-dark);border:1px solid var(--wallet-highlight);box-shadow:inset 0 1px 0 var(--wallet-highlight),0 2px 4px var(--wallet-shadow)}
+.wallet-full-card.cream{background:linear-gradient(135deg,var(--wallet-card-cream),var(--wallet-card-cream-dark))}
+.wallet-full-card.sage{background:linear-gradient(135deg,var(--wallet-card-sage),var(--wallet-card-sage-dark))}
+.wallet-card-brand{font-size:24px;font-weight:500;letter-spacing:-1px}
+.wallet-full-card h3{font-size:14px;font-weight:500;letter-spacing:2px;text-transform:uppercase;margin-top:6px}
+.wallet-card-chip{position:absolute;left:24px;top:49%;width:36px;height:27px;border:1px solid currentColor;border-radius:6px;opacity:.45;background:linear-gradient(90deg,transparent 32%,currentColor 33%,transparent 35%,transparent 65%,currentColor 66%,transparent 68%),linear-gradient(transparent 47%,currentColor 49%,transparent 52%)}
+.wallet-card-number{position:absolute;left:24px;bottom:24px;font:16px var(--font-mono);letter-spacing:3px}
+.wallet-full-card>.material-symbols-outlined{position:absolute;right:24px;top:24px;font-size:30px}
+.wallet-carousel-controls{display:flex;align-items:center;justify-content:center;gap:20px;margin-top:16px}
+.wallet-page-button{display:grid;place-items:center;width:44px;height:44px;border:1px solid var(--color-rule);border-radius:50%;background:var(--color-paper);color:var(--color-ink)}
+.wallet-page-button:hover:not(:disabled){background:var(--color-navy-soft)}
+.wallet-page-button:disabled{opacity:.35;cursor:default}
+.wallet-card-position{min-width:60px;text-align:center;font-size:14px;font-variant-numeric:tabular-nums}
+@media(max-width:540px){.wallet-full-card{padding:18px}.wallet-card-brand{font-size:20px}.wallet-full-card h3{font-size:12px}.wallet-card-chip{left:18px;width:29px;height:22px}.wallet-card-number{left:18px;bottom:18px;font-size:14px}.wallet-full-card>.material-symbols-outlined{top:18px;right:18px}}
 @media(prefers-reduced-motion:reduce){.wallet-object,.wallet-card,.wallet-pocket,.wallet-clasp{transition:none}.wallet-tile:hover .wallet-object,.wallet-tile:active .wallet-object{transform:rotateX(5deg) rotateY(-8deg) rotateZ(-3deg)}}
 
 
@@ -267,3 +276,117 @@ dialog{border:1px solid var(--color-rule);border-radius:14px;padding:24px;backgr
   .tile-slot[data-size=compact] .wallet-tile .category-arrow{right:18px;font-size:14px}
   .tile-slot[data-size=compact] .benefits-grid>a,.tile-slot[data-size=compact] .benefits-grid>button{font-size:7px}
 }
+
+/* Hallmark · genre: modern-minimal · macrostructure: Spacious rewards workbench
+ * theme: existing points co navy · pre-emit critique: P4 H5 E4 S5 R5 V4 */
+body[data-page=dashboard]{height:auto;min-height:100dvh;display:block;font-size:16px;--color-muted:#59616d}
+body[data-page=dashboard] .dashboard-main{display:block;max-width:1520px;padding:32px;margin:0 auto}
+body[data-page=dashboard] .page-heading{margin-bottom:28px}
+body[data-page=dashboard] .page-heading h1{font-size:32px;letter-spacing:-1px}
+body[data-page=dashboard] .page-heading>div>p{font-size:14px;margin-bottom:6px}
+body[data-page=dashboard] .reporting-period{font-size:13px}
+body[data-page=dashboard] .sample-label{font-size:12px}
+body[data-page=dashboard] .customize-tiles-button{font-size:14px;padding:9px 12px}
+.dashboard-board.is-spacious{zoom:1;width:100%;height:auto;grid-template-rows:none;grid-auto-rows:auto;gap:20px}
+.is-spacious>.tile-slot{height:360px}
+.is-spacious>.tile-slot[data-size=bottom]{height:300px}
+.is-spacious .category-row{gap:16px}
+.is-spacious .category-row>.tile-slot{height:190px;min-height:0}
+.is-spacious .panel{border-radius:16px}
+.is-spacious .panel-label{font-size:14px}
+.is-spacious .assistant-panel{padding:28px}
+.is-spacious .assistant-copy h2{font-size:clamp(30px,3.2vw,46px)}
+.is-spacious .assistant-copy p{font-size:14px;max-width:320px}
+.is-spacious .assistant-form input{font-size:14px}
+.is-spacious .assistant-form button{width:36px;height:36px}
+.assistant-route{position:absolute;width:100%;height:72%;top:0;right:-8%;color:var(--color-text-inverse);pointer-events:none}
+.route-orbit{fill:none;stroke:currentColor;stroke-width:1;opacity:.12}
+.route-line{fill:none;stroke:currentColor;stroke-width:1.5;stroke-dasharray:.025 .018;opacity:.4}
+.route-stop{fill:var(--color-accent);stroke:currentColor;stroke-width:2;opacity:.7}
+.is-spacious .rewards-quote>strong>span{font-size:13px}
+.is-spacious .quote-change>small{font-size:12px}
+.is-spacious .chart-return{font-size:13px}
+.is-spacious .range-controls button{font-size:12px;padding:6px 9px;min-height:32px}
+.is-spacious .chart-readout{font-size:12px}
+.is-spacious .rewards-footer{font-size:12px;padding:14px 0}
+.is-spacious .rewards-footer small{font-size:12px}
+.is-spacious .wallet-caption{font-size:13px!important}
+.is-spacious .trips-panel{padding:28px}
+.is-spacious .destination-copy small{font-size:14px}
+.is-spacious .trips-panel .destination-copy strong{font-size:32px}
+.is-spacious .destination-copy>span{font-size:14px}
+.is-spacious .trips-panel .panel-footer{font-size:14px}
+.is-spacious .trips-panel .panel-footer small{font-size:12px}
+.is-spacious .tile-slot[data-size=bottom] .benefits-grid>button,.is-spacious .tile-slot[data-size=bottom] .benefits-grid>a{font-size:13px;white-space:nowrap;padding:10px 8px;gap:6px}
+.is-spacious .benefits-note{font-size:13px}
+.is-spacious .activity-list>a>span:nth-child(2),.is-spacious .activity-list>button>span:nth-child(2){font-size:14px}
+.is-spacious .activity-list small{font-size:12px}
+.is-spacious .category-points>span{font-size:12px}
+.is-spacious .category-change small{font-size:12px}
+.is-spacious .category-change>span{font-size:13px}
+.is-spacious .tile-slot[data-size=compact] .health-caption,.is-spacious .tile-slot[data-size=compact] .health-detail{font-size:12px}
+.is-spacious .category-car p{font-size:13px}
+#dialog-content .detail-row h3{font-size:16px}#dialog-content .detail-row p{font-size:14px}
+@keyframes route-reveal{from{stroke-dashoffset:1;opacity:0}to{stroke-dashoffset:0;opacity:.4}}
+@keyframes destination-settle{from{transform:scale(1.04)}to{transform:scale(1)}}
+@media(prefers-reduced-motion:no-preference){
+ .assistant-route .route-line{animation:route-reveal 1800ms var(--ease-out) both}
+ .is-spacious .destination-photo.is-active{animation:destination-settle 1400ms var(--ease-out) both}
+ .is-spacious .tile-slot>.panel{animation-duration:650ms;animation-delay:0ms;transition:box-shadow .2s var(--ease-out)}
+ .is-spacious .stock-line,.is-spacious .category-sparkline polyline,.is-spacious .gauge-progress{animation-duration:1500ms;animation-delay:150ms}
+}
+@media(max-width:1200px){.is-spacious .rewards-quote{align-items:flex-start;flex-direction:column;gap:12px}.is-spacious .quote-change{text-align:left}.is-spacious .quote-change small{display:inline;margin-left:6px}.is-spacious .rewards-quote>strong{font-size:38px}}
+@media(max-width:900px){
+ body[data-page=dashboard] .dashboard-main{padding:24px}
+ .is-spacious>.tile-slot[data-size=assistant]{height:330px}
+ .is-spacious>.tile-slot[data-size=rewards],.is-spacious>.tile-slot[data-size=wallet]{height:360px}
+ .is-spacious>.tile-slot[data-size=bottom]{height:300px}
+ .is-spacious .category-row{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .is-spacious .category-row>.tile-slot:last-child{grid-column:auto}
+ .is-spacious .rewards-quote{flex-direction:row;align-items:flex-end}
+ .is-spacious .quote-change small{display:block;margin-left:0}
+ .is-spacious .overview-actions{gap:10px}
+}
+@media(max-width:600px){
+ body[data-page=dashboard] .dashboard-main{padding:20px 16px}
+ body[data-page=dashboard] .page-heading{flex-direction:column;align-items:flex-start;gap:16px;margin-bottom:24px}
+ body[data-page=dashboard] .page-heading h1{font-size:28px}
+ .overview-actions{justify-content:flex-start;gap:12px}
+ body[data-page=dashboard] .customize-tiles-button{font-size:13px}
+ .dashboard-board.is-spacious{grid-template-columns:minmax(0,1fr);gap:16px}
+ .is-spacious>.tile-slot{grid-column:1!important}
+ .is-spacious .assistant-panel{padding:24px}
+ .is-spacious .assistant-copy h2{font-size:40px}
+ .is-spacious .trips-panel{padding:22px}
+ .is-spacious .trips-panel .destination-copy strong{font-size:28px}
+ .is-spacious .trips-panel .panel-footer{font-size:12px}
+ .is-spacious .rewards-quote{flex-direction:row}.is-spacious .quote-change{font-size:12px}
+ .is-spacious .category-row{grid-template-columns:minmax(0,1fr);gap:16px}
+ .is-spacious .category-row>.tile-slot:last-child{grid-column:1}
+ .is-spacious .category-row>.tile-slot{height:200px}
+ .is-spacious .tile-slot[data-size=compact]>.panel{padding:20px}
+ .is-spacious .tile-slot[data-size=compact]>.wallet-tile{padding:0}
+ .is-spacious .tile-slot[data-size=compact] .health-gauge{height:96px;flex-basis:96px;width:150px}
+ .is-spacious .tile-slot[data-size=compact] .health-panel .panel-label{font-size:14px}
+ .is-spacious .tile-slot[data-size=compact] .health-detail{font-size:12px;padding-top:10px}
+ .is-spacious .category-metric-heading h2{font-size:16px}
+ .is-spacious .category-sparkline{width:110px;height:32px}
+}
+@media(max-width:600px){.is-spacious>.tile-slot[data-size=assistant]{height:390px}.is-spacious .assistant-copy{margin-top:auto}}
+.is-spacious .category-decoration{bottom:16px;right:0;transform:none}
+@media(max-width:600px){.is-spacious .category-row>.tile-slot{height:240px}}
+
+/* Interview detail panels use the existing type and palette tokens. */
+.wallet-card-information{margin-top:22px;border-top:1px solid var(--color-rule);padding-top:18px}
+.wallet-card-information h3{font-size:16px;font-weight:500;margin-bottom:12px;overflow-wrap:anywhere}
+.wallet-card-information dl,.sample-ledger{margin:0}
+.wallet-card-information dl>div{padding:10px 0;border-bottom:1px solid var(--color-rule)}
+.wallet-card-information dt{font-size:13px;color:var(--color-muted);margin-bottom:4px}
+.wallet-card-information dd{margin:0;font-size:14px;line-height:1.6;overflow-wrap:anywhere}
+.sample-ledger{padding:8px 16px;background:var(--color-paper);border:1px solid var(--color-rule);border-radius:10px;margin-top:18px}
+.sample-ledger>div{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;padding:12px 0;border-bottom:1px solid var(--color-rule);font-size:14px;line-height:1.6}
+.sample-ledger>div:last-child{border-bottom:0}
+.sample-ledger dt{color:var(--color-muted);overflow-wrap:anywhere}
+.sample-ledger dd{margin:0;text-align:right;overflow-wrap:anywhere;font-variant-numeric:tabular-nums}
+@media(max-width:540px){.sample-ledger>div{grid-template-columns:minmax(0,1fr);gap:4px}.sample-ledger dd{text-align:left}}
+#details-dialog .solid-button{font-size:14px;min-height:42px}

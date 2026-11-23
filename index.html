@@ -7,7 +7,7 @@
   <title>points co — Dashboard v3</title>
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Material+Symbols+Outlined:wght@400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="dashboard-v3.css"><script src="dashboard-v3.js" defer></script><script src="dashboard-v3-tiles.js" defer></script>
+  <link rel="stylesheet" href="dashboard-v3.css"><script src="dashboard-sample-data.js" defer></script><script src="dashboard-v3.js" defer></script><script src="dashboard-v3-tiles.js" defer></script>
 </head>
 <body data-page="dashboard">
 <a class="skip-link" href="#main">Skip to dashboard</a>
@@ -18,10 +18,10 @@
 </header>
 <main id="main" class="dashboard-main">
   <div class="page-heading"><div><p>Welcome back, Anthony</p><h1>Your travel overview</h1></div><div class="overview-actions"><button type="button" class="customize-tiles-button" id="customize-tiles" aria-pressed="false" aria-controls="tile-editor"><span class="material-symbols-outlined" aria-hidden="true">tune</span><span>Customize tiles</span></button><p class="reporting-period"><span class="material-symbols-outlined" aria-hidden="true">calendar_month</span> October 2026 <span class="sample-label">Sample data</span></p></div></div>
-  <div class="board-frame"><div class="dashboard-board">
+  <div class="board-frame"><div class="dashboard-board is-spacious" id="dashboard-board">
     <section class="panel assistant-panel" aria-labelledby="assistant-title">
       <div class="panel-heading"><span class="panel-label"><span class="material-symbols-outlined" aria-hidden="true">auto_awesome</span> Your travel assistant</span><span class="assistant-mark">points co AI</span></div>
-      <span class="material-symbols-outlined assistant-plane" aria-hidden="true">flight</span>
+      <svg class="assistant-route" viewBox="0 0 460 240" aria-hidden="true"><circle class="route-orbit" cx="340" cy="115" r="95"/><circle class="route-orbit" cx="340" cy="115" r="65"/><path class="route-line" d="M35 190 C105 190 125 55 225 75 S310 190 405 35" pathLength="1"/><circle class="route-stop" cx="35" cy="190" r="5"/><circle class="route-stop" cx="225" cy="75" r="5"/><circle class="route-stop" cx="405" cy="35" r="5"/></svg>
       <div class="assistant-copy"><h2 id="assistant-title">Let’s plan<br>your next trip.</h2><p>A better way to get there. Start with your points.</p></div>
       <form class="assistant-form" id="assistant-form"><label class="sr-only" for="travel-prompt">Ask about your travel</label><span class="material-symbols-outlined" aria-hidden="true">chat_bubble</span><input id="travel-prompt" name="prompt" placeholder="Where would you like to go?" autocomplete="off"><button type="submit" aria-label="Start a conversation"><span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span></button></form>
     </section>
@@ -48,7 +48,7 @@
       </button>
 
     <nav class="category-row" aria-label="Travel and rewards categories">
-      <a class="panel category-tile category-analytics category-flights" href="optivoy-chat.html" data-prompt="Help me find flights I can book with my points.">
+      <a class="panel category-tile category-analytics category-flights" data-panel="flights" aria-haspopup="dialog" href="optivoy-chat.html">
         <div class="category-metric-heading"><span class="material-symbols-outlined category-icon" aria-hidden="true">flight</span><h2>Flights</h2></div>
         <span class="material-symbols-outlined category-arrow" aria-hidden="true">arrow_forward</span>
         <div class="category-points"><strong>8,200</strong><span>points earned · Oct</span></div>
@@ -57,7 +57,7 @@
           <svg class="category-sparkline" viewBox="0 0 100 30" role="img" aria-label="Sample monthly points earned, May to October 2026: May 6,100, June 6,600, July 6,300, August 7,100, September 7,600, October 8,200."><polyline points="2.0,26.0 21.2,20.8 40.4,23.9 59.6,15.5 78.8,10.3 98.0,4.0"/><circle cx="98" cy="4.0" r="2"/></svg>
         </div>
       </a>
-      <a class="panel category-tile category-analytics category-hotels" href="optivoy-chat.html" data-prompt="Help me find a hotel stay using my rewards.">
+      <a class="panel category-tile category-analytics category-hotels" data-panel="hotels" aria-haspopup="dialog" href="optivoy-chat.html">
         <div class="category-metric-heading"><span class="material-symbols-outlined category-icon" aria-hidden="true">hotel</span><h2>Hotels</h2></div>
         <span class="material-symbols-outlined category-arrow" aria-hidden="true">arrow_forward</span>
         <div class="category-points"><strong>4,400</strong><span>points earned · Oct</span></div>
@@ -66,7 +66,7 @@
           <svg class="category-sparkline" viewBox="0 0 100 30" role="img" aria-label="Sample monthly points earned, May to October 2026: May 2,800, June 3,100, July 2,900, August 3,600, September 4,000, October 4,400."><polyline points="2.0,26.0 21.2,21.9 40.4,24.6 59.6,15.0 78.8,9.5 98.0,4.0"/><circle cx="98" cy="4.0" r="2"/></svg>
         </div>
       </a>
-      <a class="panel category-tile category-analytics category-shopping" href="points-co-explore.html?category=Shopping">
+      <a class="panel category-tile category-analytics category-shopping" data-panel="shopping" aria-haspopup="dialog" href="points-co-explore.html?category=Shopping">
         <div class="category-metric-heading"><span class="material-symbols-outlined category-icon" aria-hidden="true">shopping_bag</span><h2>Shopping</h2></div>
         <span class="material-symbols-outlined category-arrow" aria-hidden="true">arrow_forward</span>
         <div class="category-points"><strong>1,800</strong><span>points earned · Oct</span></div>
@@ -80,12 +80,12 @@
       <span class="health-gauge"><svg viewBox="0 0 180 108" aria-hidden="true"><path class="gauge-track" d="M18 90 A72 72 0 0 1 162 90"/><path class="gauge-progress" d="M18 90 A72 72 0 0 1 162 90" pathLength="100"/></svg><span class="health-score">75<small>/ 100</small></span></span>
       <span class="health-caption">Room to improve</span><span class="health-detail"><span class="material-symbols-outlined" aria-hidden="true">schedule</span> 2 accounts with expiry alerts</span><span class="health-footnote">Based on sample account expiry status <span class="material-symbols-outlined" aria-hidden="true">info</span></span>
     </button>
-      <a class="panel category-tile category-car" href="points-co-explore.html?category=Travel"><span class="material-symbols-outlined category-icon" aria-hidden="true">directions_car</span><div><h2>Car rental</h2><p>Explore travel rewards</p></div><span class="material-symbols-outlined category-arrow" aria-hidden="true">arrow_forward</span><span class="material-symbols-outlined category-decoration" aria-hidden="true">directions_car</span></a>
+      <a class="panel category-tile category-car" data-panel="car" aria-haspopup="dialog" href="points-co-explore.html?category=Travel"><span class="material-symbols-outlined category-icon" aria-hidden="true">directions_car</span><div><h2>Car rental</h2><p>Explore travel rewards</p></div><span class="material-symbols-outlined category-arrow" aria-hidden="true">arrow_forward</span><span class="material-symbols-outlined category-decoration" aria-hidden="true">directions_car</span></a>
     </nav>
 
     <section class="panel benefits-panel" aria-labelledby="benefits-title"><div class="panel-heading"><h2 class="panel-label" id="benefits-title"><span class="material-symbols-outlined" aria-hidden="true">diamond</span> Benefits & perks</h2><button class="icon-button compact" data-panel="benefits" aria-label="View benefits and perks"><span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span></button></div><div class="benefits-grid"><button data-panel="lounge"><span class="material-symbols-outlined" aria-hidden="true">airline_seat_recline_extra</span>Lounge access</button><button data-panel="rates"><span class="material-symbols-outlined" aria-hidden="true">sell</span>Member rates</button><button data-panel="coverage"><span class="material-symbols-outlined" aria-hidden="true">verified_user</span>Travel coverage</button><a href="points-co-explore.html"><span class="material-symbols-outlined" aria-hidden="true">redeem</span>Explore offers</a></div><p class="benefits-note">Explore what your cards could unlock.</p></section>
 
-    <section class="panel activity-panel" aria-labelledby="activity-title"><div class="panel-heading"><h2 class="panel-label" id="activity-title"><span class="material-symbols-outlined" aria-hidden="true">receipt_long</span> Monthly activity</h2><a href="points-management.html#activity" class="icon-button compact" aria-label="View rewards activity"><span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span></a></div><div class="activity-list"><a href="points-management.html"><span class="activity-icon"><span class="material-symbols-outlined" aria-hidden="true">account_balance_wallet</span></span><span>Rewards balance<small>Net change · October</small></span><strong>+2,400<small>miles</small></strong></a><a href="points-management.html#activity"><span class="activity-icon"><span class="material-symbols-outlined" aria-hidden="true">hotel</span></span><span>Hotel earnings<small>Included in rewards activity</small></span><strong>4,400<small>miles earned</small></strong></a><button data-panel="expenses"><span class="activity-icon"><span class="material-symbols-outlined" aria-hidden="true">receipt_long</span></span><span>Travel expenses<small>20% less than September</small></span><strong>$1,240<small>submitted</small></strong></button></div></section>
+    <section class="panel activity-panel" aria-labelledby="activity-title"><div class="panel-heading"><h2 class="panel-label" id="activity-title"><span class="material-symbols-outlined" aria-hidden="true">receipt_long</span> Monthly activity</h2><a href="points-management.html#activity" class="icon-button compact" aria-label="View rewards activity"><span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span></a></div><div class="activity-list"><a href="points-management.html" data-panel="rewards" aria-haspopup="dialog"><span class="activity-icon"><span class="material-symbols-outlined" aria-hidden="true">account_balance_wallet</span></span><span>Rewards balance<small>Net change · October</small></span><strong>+2,400<small>miles</small></strong></a><a href="points-management.html#activity" data-panel="hotels" aria-haspopup="dialog"><span class="activity-icon"><span class="material-symbols-outlined" aria-hidden="true">hotel</span></span><span>Hotel earnings<small>Included in rewards activity</small></span><strong>4,400<small>miles earned</small></strong></a><button data-panel="expenses"><span class="activity-icon"><span class="material-symbols-outlined" aria-hidden="true">receipt_long</span></span><span>Travel expenses<small>20% less than September</small></span><strong>$1,240<small>submitted</small></strong></button></div></section>
 
     <section class="panel trips-panel" aria-labelledby="trips-title" aria-roledescription="carousel">
       <a class="destination-link" href="optivoy-chat.html" data-prompt="Help me plan a trip to Mount Fuji, Japan.">
